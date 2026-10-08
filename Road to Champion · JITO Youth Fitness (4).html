@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Road to Champion · JITO Youth Fitness</title>
+<meta name="theme-color" content="#10231B">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1EC; --surface:#F8F9F5; --surface2:#E1E8E0; --ink:#14201A; --muted:#5B6B62; --line:#D6DDD3;
+  --navy:#F8F9F5; --navy2:#E1E8E0; --on-navy:#14201A; --on-navy-muted:#5B6B62;
+  --lime:#0B7F5A; --on-lime:#FFFFFF; --primary-ink:#0B7F5A; --primary-soft:#D6EFE4; --accent:#FF6B2C; --accent-soft:rgba(255,107,44,.12); --blush:rgba(11,127,90,.08);
+  --gold:#D99A1E; --gold-soft:rgba(217,154,30,.16); --gold-ink:#8A5A00; --streak:#F2600C;
+  --you:#0B7F5A; --ok:#0B7F5A; --ok-soft:#D6EFE4; --bad:#D6402B; --bad-soft:rgba(214,64,43,.10);
+  --disp:"Big Shoulders Display",Impact,"Arial Narrow",sans-serif; --body:Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:800;line-height:.95;letter-spacing:.01em}
+p{margin:0}
+.num{font-family:var(--disp);font-weight:800;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.hide{display:none!important}
+
+/* shell */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 16px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:.04em;flex:1;min-width:0}
+.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg{display:inline-flex;background:var(--surface2);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;padding:6px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--lime);color:var(--on-lime)}
+.col{max-width:560px;margin:0 auto;padding:18px 16px 110px}
+.wide{max-width:1120px;margin:0 auto;padding:18px 16px 60px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar .in{display:flex;width:100%;max-width:560px}
+.tabbar button{flex:1;border:0;background:none;padding:10px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--muted)}
+.tabbar button svg{width:22px;height:22px}
+.tabbar button[aria-current="page"]{color:var(--ink)}
+.tabbar button[aria-current="page"] svg{color:var(--primary-ink)}
+.bar{background:#10231B;border-bottom:0}
+.brand{color:#fff}
+.bar .seg{background:rgba(255,255,255,.1)}
+.bar .seg button{color:#B6C5BB}
+.bar .seg button[aria-pressed="true"]{background:#0B9B6B;color:#fff}
+.bar .viewas{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#fff}
+.bar .viewas option{color:#14201A}
+.atabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.atabs button{border:0;background:transparent;padding:8px 14px;border-radius:8px;font-weight:600;color:var(--muted);white-space:nowrap}
+.atabs button[aria-current="page"]{background:var(--lime);color:var(--on-lime)}
+.viewas{max-width:140px;font-size:16px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
+
+/* pieces */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(20,32,26,.06)}
+.card h3{font-size:24px;margin-bottom:10px}
+.card.plain{border:0;background:transparent;padding:0}
+.btn{border:0;border-radius:10px;padding:11px 18px;font-weight:700;background:var(--lime);color:var(--on-lime);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.gold{background:var(--ink);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.danger{background:var(--bad-soft);color:var(--bad)}
+.btn.sm{padding:7px 12px;font-size:14px;border-radius:8px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:var(--surface2);color:var(--muted)}
+.chip.gold{background:var(--gold-soft);color:var(--gold-ink)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.navy{background:var(--lime);color:var(--on-lime)}
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--ink);margin-bottom:4px}
+label.f{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px}
+label.f input,label.f select,label.f textarea{display:block;width:100%;margin-top:4px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);font-weight:500;color:var(--ink)}
+label.f textarea{min-height:76px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:640px){.grid3{grid-template-columns:1fr 1fr}.grid4{grid-template-columns:1fr 1fr}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:600;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tw{overflow-x:auto}
+
+/* hero */
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:6px 0 16px}
+.hero h1{font-size:clamp(46px,13vw,76px);text-transform:uppercase}
+.hero h1 small{display:block;font-size:.42em;color:var(--primary-ink);letter-spacing:.12em;margin-top:6px}
+.days{text-align:right;line-height:1}
+.days b{display:block;font-family:var(--disp);font-weight:900;font-size:56px}
+.days span{font-size:13px;color:var(--muted);font-weight:600}
+
+/* champion zone */
+.zone{background:var(--navy);color:var(--on-navy);border-radius:16px;padding:6px 0;position:relative;border:2px solid var(--lime)}
+.lb{display:flex;align-items:center;gap:12px;padding:11px 16px}
+.zone .lb+.lb{border-top:1px solid var(--line)}
+.lb .rk{font-family:var(--disp);font-weight:900;font-size:34px;min-width:58px;text-align:left;color:var(--primary-ink)}
+.lb .nm{flex:1;min-width:0;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .pt{font-family:var(--disp);font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
+.lb .pt i{font-style:normal;font-size:.55em;opacity:.7;margin-left:3px;font-family:var(--body);font-weight:600}
+.lb.first{padding:16px}
+.lb.first .rk{font-size:52px;color:var(--gold-ink)}
+.lb.first .nm{font-size:20px}
+.lb.first .pt{font-size:36px}
+.lb.me{background:rgba(11,127,90,.10)}
+.youtag{background:var(--lime);color:var(--on-lime);font-size:11px;font-weight:800;padding:2px 7px;border-radius:5px;margin-left:8px;vertical-align:2px}
+.zline{display:flex;align-items:center;gap:12px;margin:14px 0 4px;color:var(--primary-ink);font-family:var(--disp);font-weight:800;letter-spacing:.2em;font-size:15px}
+.zline::before,.zline::after{content:"";flex:1;border-top:2px dashed var(--lime)}
+.rest{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.rest .lb+.lb{border-top:1px solid var(--line)}
+.rest .lb .rk{color:var(--muted);font-size:26px}
+.rest .lb.me{background:rgba(11,127,90,.08)}
+.gap{margin:14px 0;background:var(--lime);color:var(--on-lime);border-radius:12px;padding:12px 16px;font-family:var(--disp);font-weight:900;font-size:28px;letter-spacing:.03em;text-align:center}
+.gap.in{background:var(--ok-soft);color:var(--ok)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.stats div{background:var(--surface);padding:12px 14px}
+.stats b{display:block;font-family:var(--disp);font-size:34px;font-weight:800;line-height:1}
+.stats span{font-size:13px;color:var(--muted)}
+.res{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.res:last-child{border-bottom:0}
+.res b{font-family:var(--disp);font-size:22px}
+.prize{border-radius:14px;border:1px solid var(--gold);background:linear-gradient(135deg,var(--surface),var(--surface2));color:var(--on-navy);padding:18px;margin-bottom:14px}
+.prize h3{font-size:30px;color:var(--gold-ink)}
+.pz{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.pz img{width:72px;height:72px;border-radius:10px;object-fit:cover;background:var(--surface2)}
+.pz .r{font-family:var(--disp);font-weight:900;font-size:30px;color:var(--gold-ink);width:40px}
+
+/* events */
+.ev{display:flex;gap:12px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;align-items:center}
+.ev .d{width:54px;text-align:center;flex:none;line-height:1}
+.ev .d b{display:block;font-family:var(--disp);font-size:34px;font-weight:900}
+.ev .d span{font-size:12px;font-weight:700;color:var(--muted)}
+.ev .m{flex:1;min-width:0}
+.ev .m strong{display:block}
+.ev .m small{color:var(--muted)}
+.ev.done{opacity:.72}
+.ev.lock{background:var(--surface2)}
+
+/* modal */
+#modal{position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;display:none;align-items:flex-end;justify-content:center;background:rgba(16,35,27,.55)}
+#modal.on{display:flex}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet.wide{max-width:760px}
+@media(min-width:700px){#modal{align-items:center}.sheet{border-radius:18px}}
+.sheet h2{font-size:34px;margin-bottom:12px}
+.sheet .x{float:right}
+.cam{position:relative;background:#000;border-radius:14px;overflow:hidden;aspect-ratio:1/1;margin-bottom:12px}
+@supports not (aspect-ratio:1/1){.cam{height:86vw;max-height:520px}}
+.cam video{width:100%;height:100%;object-fit:cover}
+.cam .frame{position:absolute;top:18%;right:18%;bottom:18%;left:18%;border:3px solid var(--lime);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
+.cam .msg{position:absolute;left:0;right:0;bottom:0;padding:10px;color:#fff;text-align:center;font-size:14px;background:rgba(0,0,0,.55)}
+.res-ok{background:var(--ok-soft);color:var(--ok);border-radius:14px;padding:18px;text-align:center}
+.res-ok .big{font-family:var(--disp);font-weight:900;font-size:64px;line-height:1}
+.res-bad{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-weight:600}
+.cv{max-width:100%;height:auto;border-radius:12px;display:block;margin:0 auto 12px;border:1px solid var(--line)}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--lime);color:var(--on-lime);padding:10px 16px;border-radius:10px;z-index:80;font-weight:600;max-width:90%;display:none;text-align:center;box-shadow:0 6px 24px rgba(16,35,27,.3)}
+#toast.on{display:block}
+.pill-list{display:flex;flex-wrap:wrap;gap:6px}
+.hof{border:1px solid var(--gold);background:linear-gradient(135deg,var(--surface),var(--surface2));color:var(--on-navy);border-radius:16px;padding:18px;margin-bottom:12px}
+.hof .yr{font-family:var(--disp);font-weight:900;font-size:60px;color:var(--gold-ink);line-height:.9}
+.hof .champ{font-family:var(--disp);font-weight:800;font-size:34px;margin:6px 0 2px}
+.hof .others{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
+.hof .others div{display:flex;justify-content:space-between;padding:5px 0}
+.tl{border-left:3px solid var(--lime);margin-left:6px;padding-left:16px}
+.tl div{padding:8px 0}
+.tl b{font-family:var(--disp);font-size:24px;margin-right:8px}
+.explorer{display:grid;grid-template-columns:180px 220px 1fr;gap:12px;align-items:start}
+@media(max-width:860px){.explorer{grid-template-columns:1fr}}
+.explorer .list{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:420px;overflow-y:auto}
+.explorer .list button{display:flex;justify-content:space-between;width:100%;border:0;background:transparent;padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
+.explorer .list button[aria-current="true"]{background:var(--lime);color:var(--on-lime)}
+textarea.json{width:100%;min-height:340px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.path{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:var(--surface2);padding:3px 8px;border-radius:6px}
+.note{background:var(--blush);color:#0B6B4C;border:1px solid rgba(11,127,90,.22);border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.spread{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+@media(prefers-reduced-motion:no-preference){.pop{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}}
+
+/* upcoming-events slideshow */
+.showcase{margin:0 0 18px}
+.showcase .sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.showcase .sh h3{font-size:24px}
+.slides{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none;border-radius:18px}
+.slides::-webkit-scrollbar{display:none}
+.slide{position:relative;flex:0 0 100%;width:100%;scroll-snap-align:center;scroll-snap-stop:always;min-height:220px;padding:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;text-align:left;color:#fff;background:#10231B;display:flex}
+.slide.noimg{background:repeating-linear-gradient(120deg,rgba(255,255,255,.05) 0 14px,transparent 14px 30px),linear-gradient(135deg,#0B9B6B,#064E3B)}
+.slide .bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+.slide .shade{position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(180deg,rgba(16,35,27,.2) 0%,rgba(16,35,27,.92) 100%)}
+.slide.noimg .shade{background:radial-gradient(circle at 85% 0%,rgba(255,255,255,.16),transparent 55%)}
+.slide .in{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:18px;width:100%;padding:14px 16px}
+.slide .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.slide .when{font-family:var(--disp);font-weight:700;letter-spacing:.12em;font-size:15px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:999px}
+.slide .bot{display:flex;gap:14px;align-items:flex-end}
+.slide .dt{flex:none;text-align:center;line-height:1;background:rgba(16,35,27,.62);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:8px 12px}
+.slide .dt b{display:block;font-family:var(--disp);font-size:38px;font-weight:900}
+.slide .dt span{font-size:12px;font-weight:700;color:#6EE7B7;letter-spacing:.08em}
+.slide h3{font-size:clamp(28px,8vw,40px);text-transform:uppercase;text-shadow:0 2px 12px rgba(16,35,27,.3)}
+.slide p{font-size:14px;color:#D5DADF;margin:4px 0 8px}
+.slide .chip{background:rgba(16,35,27,.62);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.slide .chip.gold{background:rgba(217,154,30,.25);color:#FFD27A;border-color:rgba(217,154,30,.5)}
+.slide .chip.ok{background:rgba(63,191,147,.2);color:#8BE6C2}
+.slide .chip.navy{background:#0B9B6B;color:#fff;border-color:transparent}
+.slide .chip.bad{background:rgba(226,109,90,.2);color:#F2A090}
+.slide.noimg .chip.navy{background:#fff;color:#0A5C42}
+.dots{display:flex;justify-content:center;gap:4px;margin-top:6px}
+.dots button{border:0;background:transparent;padding:8px 3px}
+.dots button i{display:block;width:8px;height:8px;border-radius:99px;background:rgba(20,32,26,.2);transition:width .2s,background .2s}
+.dots button.on i{width:22px;background:var(--lime)}
+.chk{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);margin:2px 0 14px}
+.chk input{width:20px;height:20px;accent-color:var(--primary-ink);margin:0}
+@media print{.bar,.tabbar{display:none}}
+</style>
+</head>
+<body>
+<noscript><div style="padding:24px;font-family:sans-serif;color:#fff">This app needs JavaScript. Please enable it in Safari settings.</div></noscript>
+<div id="app"><div class="col"><div class="empty"><b>Loading Road to Champion…</b>Connecting to the championship data.</div></div></div>
+<div id="modal" role="dialog" aria-modal="true"></div>
+<div id="toast" role="status"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script>
+'use strict';
+window.addEventListener('error',function(e){var a=document.getElementById('app');if(a&&!(window.ST&&ST.ready)){a.innerHTML='<div class="col"><div class="empty"><b>Couldn\'t start the app</b>'+String(e&&e.message||'Unknown error').replace(/</g,'&lt;')+'<br><br><button class="btn" onclick="location.reload()">Reload</button></div></div>'}});
+/* ============ utils ============ */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmt=n=>Number(n||0).toLocaleString('en-IN');
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const rid=()=>Math.random().toString(36).slice(2,10);
+const DAY=864e5;
+const dayEnd=s=>new Date(s+'T23:59:59'), dayStart=s=>new Date(s+'T00:00:00');
+const fmtEv=d=>new Date(d).toLocaleString('en-IN',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});
+const fmtDay=d=>new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+const TYPE={regular:'Regular',challenge:'Challenge',gold:'Gold Event'};
+function sha256js(str){
+  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  var b=unescape(encodeURIComponent(str)),n=b.length,w=[],i,j;
+  for(i=0;i<n;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);
+  w[n>>2]|=0x80<<(24-(n%4)*8);
+  var L=(((n+8)>>6)+1)*16;for(i=0;i<L;i++)if(w[i]===undefined)w[i]=0;
+  w[L-1]=n*8;
+  var rot=function(x,c){return(x>>>c)|(x<<(32-c))};
+  for(var o=0;o<L;o+=16){
+    var W=w.slice(o,o+16),a=H[0],bb=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(j=16;j<64;j++){var s0=rot(W[j-15],7)^rot(W[j-15],18)^(W[j-15]>>>3),s1=rot(W[j-2],17)^rot(W[j-2],19)^(W[j-2]>>>10);W[j]=(W[j-16]+s0+W[j-7]+s1)|0}
+    for(j=0;j<64;j++){
+      var S1=rot(e,6)^rot(e,11)^rot(e,25),ch=(e&f)^(~e&g),t1=(h+S1+ch+K[j]+W[j])|0,S0=rot(a,2)^rot(a,13)^rot(a,22),mj=(a&bb)^(a&c)^(bb&c),t2=(S0+mj)|0;
+      h=g;g=f;f=e;e=(d+t1)|0;d=c;c=bb;bb=a;a=(t1+t2)|0}
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+bb)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0}
+  return H.map(function(x){return('00000000'+(x>>>0).toString(16)).slice(-8)}).join('')}
+async function sha(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return sha256js(s)}}
+function genToken(){const A='ABCDEFGHJKMNPQRSTUVWXYZ23456789',a=new Uint32Array(8);if(window.crypto&&crypto.getRandomValues)crypto.getRandomValues(a);else for(let i=0;i<8;i++)a[i]=Math.random()*4294967296;return [...a].map(v=>A[v%A.length]).join('')}
+const showTok=t=>t.slice(0,4)+'-'+t.slice(4), normTok=s=>String(s).toUpperCase().replace(/[^A-Z0-9]/g,'');
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3200)}
+function ask(msg,ok='Confirm'){return new Promise(res=>{openModal(`<h2>Are you sure?</h2><p style="margin-bottom:16px">${esc(msg)}</p><div class="row"><button class="btn danger" data-act="ask-yes">${esc(ok)}</button><button class="btn ghost" data-act="ask-no">Cancel</button></div>`,()=>res(false));window.__ask=v=>{window.__ask=null;res(v);closeModal(true)}})}
+
+/* ============ data store (cloud db or local fallback) ============ */
+const COLS=['config','prizes','events','secrets','members','checkins','awards','seasons','archive'];
+let S={};COLS.forEach(c=>S[c]={});
+const ST={mode:'boot',db:null,dl:null,ME:{uid:null,name:'',isAdmin:false}};
+const UI={tab:'home',admin:false,atab:'overview',season:null,viewAs:null,exCol:'events',exId:null,evEdit:null,evImg:undefined,slide:0,dirty:false};
+const LKEY='jito_road_to_champion_v1';
+function lsLoad(){try{const j=JSON.parse(localStorage.getItem(LKEY)||'null');if(j)COLS.forEach(c=>S[c]=j[c]||{})}catch(e){}}
+function lsSave(){try{localStorage.setItem(LKEY,JSON.stringify(S))}catch(e){}}
+const clone=o=>JSON.parse(JSON.stringify(o));
+async function put(c,id,data){data=clone(data);if(ST.mode==='cloud')await ST.db.doc(c+'/'+id).set(data);else{S[c][id]=data;lsSave();queueRender()}}
+async function del(c,id){if(ST.mode==='cloud')await ST.db.doc(c+'/'+id).delete();else{delete S[c][id];lsSave();queueRender()}}
+function watchAll(){COLS.forEach(c=>{ST.db.collection(c).onSnapshot(s=>{const m={};s.docs.forEach(d=>m[d.id]=d.data());S[c]=m;ST.got[c]=1;if(c==='members'&&!ST.onboarded&&S.members[ST.ME.uid])ST.onboarded=true;queueRender()},e=>console.warn('watch',c,e))})}
+async function wipeAll(){for(const c of COLS)for(const id of Object.keys(S[c]))await del(c,id)}
+
+const MEM={};
+const store={
+  get(k){try{const v=localStorage.getItem(k);if(v!=null)return v}catch(e){}try{const v=sessionStorage.getItem(k);if(v!=null)return v}catch(e){}return MEM[k]!=null?MEM[k]:null},
+  set(k,v,remember){this.del(k);try{(remember===false?sessionStorage:localStorage).setItem(k,v);return}catch(e){}MEM[k]=v},
+  del(k){try{localStorage.removeItem(k)}catch(e){}try{sessionStorage.removeItem(k)}catch(e){}delete MEM[k]}};
+const SKEY='jito_session';
+function getSession(){try{return JSON.parse(store.get(SKEY)||'null')}catch(e){return null}}
+function saveSession(o,remember){store.set(SKEY,JSON.stringify(o),remember)}
+const ADMIN_HASH='144c720d9c4b100e8646dd00f779a2bd162ffe2ab0b46bb80a6d64ded53549f8';
+function wasUnlocked(){return store.get('jito_admin')===ADMIN_HASH}
+/* ============ config ============ */
+function defaultConfig(){const y=new Date().getFullYear();return{org:'JITO CHENNAI YOUTH FITNESS',short:'JITO YOUTH FITNESS',year:y,yearStart:y+'-01-01',yearEnd:y+'-12-31',status:'open',
+ seasons:{1:{start:y+'-01-01',end:y+'-06-30'},2:{start:y+'-07-01',end:y+'-12-31'}},
+ scoring:{regular:10,challenge:20,goldAttend:10,streak:25,streakEvery:5,goldQual:100,top10:150,top5:250,champion:400,perfMin:50,perfMax:300},
+ sp:{regular:10,challenge:20,gold:10},goldCount:10,minEventsSeason:2,minEventsAnnual:4,topN:5}}
+function CFG(){const d=defaultConfig(),s=S.config.main||{},ss=s.seasons||{};return{...d,...s,scoring:{...d.scoring,...(s.scoring||{})},sp:{...d.sp,...(s.sp||{})},seasons:{1:{...d.seasons[1],...(ss[1]||{})},2:{...d.seasons[2],...(ss[2]||{})}}}}
+const nameOf=u=>(S.members[u]&&S.members[u].name)||'Member';
+const target=()=>UI.viewAs||ST.ME.uid;
+
+/* ============ scoring engine ============ */
+function yearEvents(c){const a=+dayStart(c.yearStart),b=+dayEnd(c.yearEnd);return Object.entries(S.events).map(([id,e])=>({...e,id})).filter(e=>{const t=+new Date(e.date);return t>=a&&t<=b}).sort((x,y)=>new Date(x.date)-new Date(y.date))}
+const hasVal=v=>v!=null&&v!==''&&!isNaN(+v);
+const evBase=(e,c)=>hasVal(e.cp)?+e.cp:e.type==='challenge'?c.scoring.challenge:e.type==='gold'?c.scoring.goldAttend:c.scoring.regular;
+const evSP=(e,c)=>hasVal(e.sp)?+e.sp:(c.sp[e.type]||10);
+const awardsOf=y=>(S.awards['y'+y]&&S.awards['y'+y].items)||[];
+function metrics(uid,evs,aw,c){
+  const att=(S.checkins[uid]&&S.checkins[uid].events)||{};const now=Date.now();
+  const m={uid,events:0,base:0,sp:{1:0,2:0},ev:{1:0,2:0},cats:{events:0,challenges:0,streak:0,goldQual:0,seasonRank:0,perf:0,bonus:0},att};
+  evs.forEach(e=>{if(!att[e.id])return;m.events++;const b=evBase(e,c);m.base+=b;(e.type==='challenge'?m.cats.challenges+=b:m.cats.events+=b);const s=e.season||1;m.sp[s]+=evSP(e,c);m.ev[s]++});
+  let run=0,longest=0,mil=0;
+  evs.filter(e=>e.type!=='gold'&&(+new Date(e.date)<=now||att[e.id])).forEach(e=>{if(att[e.id]){run++;longest=Math.max(longest,run)}else{mil+=Math.floor(run/c.scoring.streakEvery);run=0}});
+  mil+=Math.floor(run/c.scoring.streakEvery);m.longest=longest;m.current=run;m.cats.streak=mil*c.scoring.streak;
+  aw.filter(a=>a.uid===uid).forEach(a=>{const k={gold_qual:'goldQual',season_rank:'seasonRank',gold_perf:'perf',challenge:'challenges',bonus:'bonus'}[a.type]||'bonus';m.cats[k]+=+a.cp||0});
+  m.cp=Object.values(m.cats).reduce((s,v)=>s+v,0);m.golds=0;return m}
+let _cache=null;
+function computeAll(){
+  if(_cache)return _cache;
+  const c=CFG(),evs=yearEvents(c),aw=awardsOf(c.year);
+  const uids=[...new Set([...Object.keys(S.members),...Object.keys(S.checkins)])];
+  const mets={};uids.forEach(u=>mets[u]=metrics(u,evs,aw,c));
+  const sd={1:S.seasons[`y${c.year}s1`]||null,2:S.seasons[`y${c.year}s2`]||null};
+  uids.forEach(u=>{mets[u].golds=[1,2].filter(n=>sd[n]&&sd[n].gold.includes(u)).length});
+  const arch=S.archive[c.year],closed=c.status==='closed'&&!!arch;
+  const cmp=(a,b)=>b.cp-a.cp||b.events-a.events||nameOf(a.uid).localeCompare(nameOf(b.uid));
+  const annual=closed?arch.standings.map(r=>({...r})):uids.map(u=>mets[u]).filter(m=>m.events>=c.minEventsAnnual).sort(cmp).map((m,i)=>({...m,rank:i+1}));
+  const seasons={};
+  [1,2].forEach(n=>{if(sd[n])seasons[n]={final:true,rows:sd[n].ranking,gold:sd[n].gold};else{
+    const rows=uids.map(u=>mets[u]).filter(m=>m.ev[n]>=c.minEventsSeason).sort((a,b)=>b.sp[n]-a.sp[n]||b.ev[n]-a.ev[n]||nameOf(a.uid).localeCompare(nameOf(b.uid))).map((m,i)=>({uid:m.uid,sp:m.sp[n],events:m.ev[n],rank:i+1}));
+    seasons[n]={final:false,rows,gold:rows.slice(0,c.goldCount).map(r=>r.uid)}}});
+  return _cache={c,evs,aw,uids,mets,annual,closed,seasons,sd,arch};
+}
+const daysLeft=c=>Math.max(0,Math.ceil((+dayEnd(c.yearEnd)-Date.now())/DAY));
+function seasonState(c,n,A){if(A.sd[n])return 'Finalized';const s=c.seasons[n],now=Date.now();if(now<+dayStart(s.start))return 'Upcoming';if(now>+dayEnd(s.end))return 'Ended · awaiting finalization';return 'Live'}
+function seasonOfDate(c,d){const t=+new Date(d);if(t>=+dayStart(c.seasons[1].start)&&t<=+dayEnd(c.seasons[1].end))return 1;return 2}
+function finalizeData(n){
+  const A=computeAll(),c=A.c,rows=A.seasons[n].final?null:A.seasons[n].rows;
+  const rankRows=(rows||A.seasons[n].rows),gold=rankRows.slice(0,c.goldCount).map(r=>r.uid);
+  const items=A.aw.filter(a=>a.src!=='s'+n);
+  rankRows.forEach(r=>{
+    if(gold.includes(r.uid))items.push({id:`s${n}-${r.uid}-gold`,uid:r.uid,type:'gold_qual',cp:c.scoring.goldQual,season:n,src:'s'+n,note:`Season ${n} Gold qualification`,ts:Date.now()});
+    const tier=r.rank===1?['Season '+n+' Champion',c.scoring.champion]:r.rank<=5?['Season '+n+' Top 5',c.scoring.top5]:r.rank<=10?['Season '+n+' Top 10',c.scoring.top10]:null;
+    if(tier)items.push({id:`s${n}-${r.uid}-rank`,uid:r.uid,type:'season_rank',cp:tier[1],season:n,src:'s'+n,note:tier[0],ts:Date.now()})});
+  return{season:{year:c.year,n,finalizedAt:Date.now(),ranking:rankRows.map(r=>({uid:r.uid,sp:r.sp,events:r.events,rank:r.rank})),gold},items}}
+async function finalizeSeason(n){const d=finalizeData(n),c=CFG();await put('seasons',`y${c.year}s${n}`,d.season);await put('awards','y'+c.year,{items:d.items})}
+async function undoSeason(n){const c=CFG(),A=computeAll();await del('seasons',`y${c.year}s${n}`);await put('awards','y'+c.year,{items:A.aw.filter(a=>a.src!=='s'+n)})}
+async function closeYear(){
+  const A=computeAll(),c=A.c;const standings=A.annual.slice(0,200).map(r=>({uid:r.uid,name:nameOf(r.uid),rank:r.rank,cp:r.cp,events:r.events,golds:r.golds,longest:r.longest}));
+  const pr=S.prizes.main;const prizeTitles=pr&&pr.items?Object.fromEntries(Object.entries(pr.items).map(([k,v])=>[k,{title:v.title||'',sponsor:v.sponsor||''}])):{};
+  await put('archive',String(c.year),{year:c.year,org:c.org,closedAt:Date.now(),top5:standings.slice(0,c.topN).map(r=>r.uid),standings,prizes:prizeTitles});
+  await put('config','main',{...c,status:'closed'})}
+async function startNextYear(){const c=CFG(),up=s=>s.replace(/^\d{4}/,y=>String(+y+1));
+  await put('config','main',{...c,year:c.year+1,yearStart:up(c.yearStart),yearEnd:up(c.yearEnd),status:'open',seasons:{1:{start:up(c.seasons[1].start),end:up(c.seasons[1].end)},2:{start:up(c.seasons[2].start),end:up(c.seasons[2].end)}}})}
+function histOf(uid){
+  const out=[];const c=CFG();
+  Object.values(S.archive).sort((a,b)=>b.year-a.year).forEach(a=>{const r=a.standings.find(x=>x.uid===uid);if(!r)return;
+    out.push({year:a.year,rank:r.rank,cp:r.cp,label:r.rank===1?'👑 Champion #1':r.rank<=5?`🏆 Top 5 #${r.rank}`:r.golds>0?`🥇 Gold #${r.rank}`:`Finisher #${r.rank}`,tier:r.rank===1?'champ':r.rank<=5?'top5':r.golds>0?'gold':'fin',stats:r})});
+  return out}
+
+/* ============ demo data ============ */
+async function buildDemo(){
+  const y=new Date().getFullYear(),R=rng(11),now=Date.now(),me=ST.ME.uid;
+  const P=[['rohan','Rohan Shah',.94],['aarav','Aarav Mehta',.9],['dhruv','Dhruv Jain',.87],['krish','Krish Doshi',.84],['arjun','Arjun Kothari',.82],['meera','Meera Sheth',.78],['ishaan','Ishaan Bhandari',.74],['kavya','Kavya Mehta',.7],['aditi','Aditi Shah',.66],['nikhil','Nikhil Jain',.6],['sanya','Sanya Gandhi',.55],['vihaan','Vihaan Chopra',.5],['tanvi','Tanvi Parekh',.42],['rahul','Rahul Sethia',.3]];
+  const T={regular:['Sunrise Run, Besant Nagar','Marina Beach HIIT','Yoga at Adyar Eco Park','ECR Cycle Ride','Boot Camp, Nehru Park','Bodyweight Strength Hour','Football 5s Social','Zumba Morning'],challenge:['100 Squat Challenge','5K Time Trial','Plank Ladder Challenge','Stair Climb Challenge'],gold:['Gold Summit']};
+  const VEN=['Elliot\'s Beach','Marina Beach','Nehru Outdoor Stadium','Adyar Eco Park','Besant Nagar','JITO Chennai Hall'];
+  const slots=[[1,'01-11','regular'],[1,'01-25','regular'],[1,'02-08','challenge'],[1,'02-22','regular'],[1,'03-08','regular'],[1,'03-22','regular'],[1,'04-05','challenge'],[1,'04-19','regular'],[1,'05-03','regular'],[1,'05-17','regular'],[1,'05-31','challenge'],[1,'06-14','regular'],[1,'07-05','gold'],
+   [2,'07-19','regular'],[2,'08-02','regular'],[2,'08-16','challenge'],[2,'08-30','regular'],[2,'09-13','regular'],[2,'09-27','challenge'],[2,'10-11','regular'],[2,'10-25','regular'],[2,'11-08','challenge'],[2,'11-22','regular'],[2,'12-06','regular'],[2,'12-20','gold']];
+  const B={};COLS.forEach(c=>B[c]={});
+  const c0={...defaultConfig(),year:y,yearStart:y+'-01-01',yearEnd:y+'-12-31'};B.config.main=c0;
+  const tc={regular:0,challenge:0,gold:0};
+  for(let i=0;i<slots.length;i++){const[s,md,type]=slots[i];const id='ev_demo'+(i+1),tok=genToken();const title=T[type][tc[type]++%T[type].length];
+    B.events[id]={title,type,season:s,date:`${y}-${md}T06:30:00`,venue:VEN[i%VEN.length],desc:type==='gold'?'Exclusive event for Gold members. Performance earns bonus Championship Points.':'Open to all JITO Chennai Youth members.',open:true,tokenHash:await sha(tok),createdAt:now};B.secrets[id]={token:tok}}
+  P.forEach(p=>B.members['demo_'+p[0]]={name:p[1],joinedAt:now,demo:true});
+  B.members[me]={name:ST.ME.name&&ST.ME.name!=='You'?ST.ME.name:'You',joinedAt:now};
+  const past=Object.entries(B.events).filter(([,e])=>+new Date(e.date)<now-2*DAY).sort((a,b)=>new Date(a[1].date)-new Date(b[1].date));
+  P.forEach(p=>{const ev={};past.forEach(([id,e])=>{if(e.type!=='gold'&&R()<p[2])ev[id]=+new Date(e.date)+36e5});B.checkins['demo_'+p[0]]={events:ev}});
+  const mine={};past.forEach(([id,e],i)=>{if(e.season===1&&e.type!=='gold'&&R()<.75)mine[id]=+new Date(e.date)+36e5});B.checkins[me]={events:mine};
+  const backup=S;S=B;_cache=null;
+  try{
+    if(+new Date(y+'-07-01')<now){const d=finalizeData(1);B.seasons[`y${y}s1`]=d.season;B.awards['y'+y]={items:d.items};_cache=null;
+      const g=d.season.gold;const goldEv=past.find(([,e])=>e.type==='gold'&&e.season===1);
+      if(goldEv){const items=d.items.slice();g.forEach(u=>{if(u!==me&&R()<.85){B.checkins[u].events[goldEv[0]]=+new Date(goldEv[1].date)+36e5;items.push({id:'perf-'+u,uid:u,type:'gold_perf',cp:Math.round((50+R()*250)/10)*10,eventId:goldEv[0],src:'perf',note:'Gold Summit performance',ts:now})}});B.awards['y'+y]={items};_cache=null}}
+    // tune viewer's live position so they sit just outside the Top 5
+    const A=computeAll();const cp5=A.annual[4]?A.annual[4].cp:0,targetCP=Math.max(0,cp5-70);
+    for(const[id,e]of past){if(e.season!==2||e.type==='gold')continue;B.checkins[me].events[id]=+new Date(e.date)+36e5;_cache=null;if(computeAll().mets[me].cp>targetCP){delete B.checkins[me].events[id];_cache=null;break}}
+    const cur=computeAll().mets[me].cp;
+    if(cur<targetCP){const doc=B.awards['y'+y]||(B.awards['y'+y]={items:[]});doc.items.push({id:'aw_demo_me',uid:me,type:'bonus',cp:targetCP-cur,src:'demo',note:'Volunteer bonus',ts:now});_cache=null}
+  }finally{S=backup;_cache=null}
+  return B}
+async function loadDemo(){
+  toast('Writing demo data…');const B=await buildDemo();let n=0;
+  for(const c of COLS)for(const[id,d]of Object.entries(B[c])){await put(c,id,d);n++}
+  toast(`Demo data loaded (${n} records). Try "Viewing as" in the header.`)}
+/* ============ render core ============ */
+const IC={home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
+ ev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>',
+ se:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+ hof:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 5-8 5 8 4-4-2 11H5z"/></svg>',
+ me:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>'};
+const LOGO='<svg width="30" height="30" viewBox="0 0 32 32" fill="none"><rect x="2" y="6" width="28" height="20" rx="10" stroke="#34D399" stroke-width="3"/><rect x="8" y="11" width="16" height="10" rx="5" stroke="#34D399" stroke-width="2.5" opacity=".7"/></svg>';
+let rq=0;
+function queueRender(){_cache=null;if(!ST.ready)return;const a=document.activeElement;if(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&$('#app').contains(a)){UI.dirty=true;return}cancelAnimationFrame(rq);rq=requestAnimationFrame(render)}
+document.addEventListener('focusout',()=>{if(UI.dirty)setTimeout(()=>{if(UI.dirty){UI.dirty=false;_cache=null;render()}},150)});
+function render(){
+  _cache=null;UI.dirty=false;const A=computeAll(),isA=ST.ME.isAdmin&&UI.admin,y=window.scrollY;
+  $('#app').innerHTML=topbar(A,isA)+(isA?adminView(A):memberView(A))+(isA?'':tabbar());
+  initSlides();window.scrollTo(0,y)}
+function topbar(A,isA){
+  const opts=ST.ME.isAdmin?`<select class="viewas" data-chg="viewas" aria-label="View as member"><option value="">Viewing as: me</option>${A.uids.map(u=>`<option value="${esc(u)}" ${UI.viewAs===u?'selected':''}>${esc(nameOf(u))}</option>`).join('')}</select>`:'';
+  const seg=true?`<div class="seg"><button data-act="mode" data-v="m" aria-pressed="${!isA}">Member</button><button data-act="mode" data-v="a" aria-pressed="${isA}">Admin</button></div>`:'';
+  return`<div class="bar"><div class="brand">${LOGO}<span>${esc(A.c.short||'JITO YOUTH FITNESS')}</span></div>${isA?'':opts}${seg}</div>`}
+function tabbar(){const T=[['home','Champion','home'],['events','Events','ev'],['seasons','Seasons','se'],['hall','Hall','hof'],['me','Me','me']];
+  return`<nav class="tabbar" aria-label="Main"><div class="in">${T.map(t=>`<button data-act="tab" data-v="${t[0]}" ${UI.tab===t[0]?'aria-current="page"':''}>${IC[t[2]]}${t[1]}</button>`).join('')}</div></nav>`}
+function memberView(A){
+  const u=target();let inner;
+  if(!ST.onboarded&&!UI.viewAs&&(ST.mode==='local'||ST.got.members)&&!S.members[u]&&!ST.skipName){setTimeout(askName,50);ST.skipName=true}
+  const setup=ST.ME.isAdmin&&!UI.viewAs&&!A.evs.length?`<div class="card"><h3>Nothing here yet</h3><p class="muted" style="margin-bottom:10px">You're an admin. Create events in the admin console, or load demo data to see every screen filled in.</p><div class="row"><button class="btn gold" data-act="mode" data-v="a">Open admin console</button><button class="btn ghost" data-act="demo">Load demo data</button></div></div>`:'';
+  switch(UI.tab){case'events':inner=vEvents(A);break;case'seasons':inner=vSeasons(A);break;case'hall':inner=vHall(A);break;case'me':inner=vMe(A);break;default:inner=vHome(A)}
+  return`<main class="col">${setup}${inner}</main>`}
+function showSignIn(msg){
+  openModal(`<h2>Sign in</h2><p class="muted" style="margin-bottom:12px">Enter your name and a PIN. First time here? This creates your profile. Next time, use the same name and PIN to get back in.</p>${msg?`<div class="res-bad">${esc(msg)}</div>`:''}<label class="f">Your name<input id="si_name" maxlength="40" autocomplete="name" autocapitalize="words" placeholder="e.g. Rohan Shah"></label><label class="f">PIN (4 to 8 digits)<input id="si_pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="current-password"></label><label class="chk"><input type="checkbox" id="si_rem" checked> Keep me signed in on this device</label><button class="btn gold" style="width:100%" data-act="signin" data-submit>Continue</button>`,()=>setTimeout(()=>showSignIn(),0));
+  setTimeout(()=>{const i=$('#si_name');i&&i.focus()},80)}
+function askName(){openModal(`<h2>Welcome, athlete</h2><p class="muted" style="margin-bottom:12px">Pick the name that shows on the leaderboard.</p><label class="f">Display name<input id="nm" maxlength="40" value="${esc(ST.ME.name==='You'?'':ST.ME.name)}" placeholder="e.g. Rohan Shah"></label><button class="btn gold" data-act="savename" data-submit>Join the leaderboard</button>`,()=>{})}
+/* ============ modal ============ */
+let modalClose=null;
+function openModal(html,onClose,cls=''){modalClose=onClose||null;const m=$('#modal');m.innerHTML=`<div class="sheet ${cls}">${html}</div>`;m.classList.add('on')}
+function closeModal(silent){stopCam();const m=$('#modal');m.classList.remove('on');m.innerHTML='';const f=modalClose;modalClose=null;if(f&&!silent)f()}
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const t=e.target,sh=t.closest&&t.closest('.sheet');const b=sh&&sh.querySelector('[data-submit]');if(b&&t.tagName==='INPUT'&&t.type!=='file'&&t.type!=='checkbox'){e.preventDefault();b.click()}}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('on'))closeModal()});
+
+/* ============ member: home ============ */
+function seasonRes(A,n,u){
+  const c=A.c,s=A.seasons[n],st=seasonState(c,n,A),row=s.rows.find(r=>r.uid===u);
+  if(st==='Upcoming')return`<div class="res"><span>Season ${n}</span><span class="muted">Starts ${fmtDay(c.seasons[n].start)}</span></div>`;
+  if(!row){const m=A.mets[u];return`<div class="res"><span>Season ${n} <span class="chip">${st}</span></span><span class="muted">${m&&m.ev[n]?`${m.ev[n]}/${c.minEventsSeason} events to qualify`:'Not ranked yet'}</span></div>`}
+  const g=s.gold.includes(u);return`<div class="res"><span>Season ${n} <span class="chip ${s.final?'ok':''}">${s.final?'Final':st==='Live'?'Live':'Ended'}</span></span><span><b>#${row.rank}</b> <span class="muted">of ${s.rows.length}</span> ${g?`<span class="chip gold">🥇 Gold${s.final?'':' · projected'}</span>`:''}</span></div>`}
+function prizeBlock(){
+  const p=S.prizes.main;if(!p||!p.status||p.status==='hidden')return'';
+  if(p.status==='soon')return`<div class="prize"><h3>TOP 5 GRAND PRIZE — COMING SOON</h3><p style="margin-top:6px;color:var(--on-navy-muted)">${esc(p.teaser||'')}</p></div>`;
+  if(p.status==='teaser')return`<div class="prize"><h3>${esc(p.teaser||'Something BIG awaits the Top 5 👀')}</h3></div>`;
+  const items=[1,2,3,4,5].map(r=>({r,...(p.items&&p.items[r]||{})})).filter(i=>i.title);
+  return`<div class="prize"><h3>${esc(p.headline||'Year-End Grand Prize')}</h3>${p.eligibility?`<p style="color:var(--on-navy-muted);margin:4px 0 8px;font-size:14px">${esc(p.eligibility)}</p>`:''}${items.map(i=>`<div class="pz"><div class="r">#${i.r}</div>${i.image?`<img src="${i.image}" alt="">`:''}<div><b>${esc(i.title)}</b>${i.value?` <span class="chip gold">${esc(i.value)}</span>`:''}<div style="font-size:14px;color:var(--on-navy-muted)">${esc(i.desc||'')}</div>${i.sponsor?`<div style="font-size:13px">Sponsor: ${esc(i.sponsor)}</div>`:''}${i.r===1&&i.extra?`<div style="font-size:13px;color:var(--gold-ink)">＋ ${esc(i.extra)}</div>`:''}</div></div>`).join('')}</div>`}
+let slideHold=0,slideTimer=null;
+function scrollSlide(i){const s=$('#slides');if(!s)return;const l=i*s.clientWidth;try{s.scrollTo({left:l,behavior:'smooth'})}catch(e){s.scrollLeft=l}}
+function whenLabel(d){const a=new Date(d),t=new Date(),k=Math.round((new Date(a.getFullYear(),a.getMonth(),a.getDate())-new Date(t.getFullYear(),t.getMonth(),t.getDate()))/DAY);return k<=0?'TODAY':k===1?'TOMORROW':'IN '+k+' DAYS'}
+function slideShow(A){
+  const c=A.c,u=target(),now=Date.now()-6*36e5,up=A.evs.filter(e=>+new Date(e.date)>=now).slice(0,8);
+  const head=`<div class="sh"><h3>Upcoming events</h3><button class="btn ghost sm" data-act="tab" data-v="events">See all</button></div>`;
+  if(!up.length)return`<section class="showcase">${head}<div class="empty"><b>No upcoming events</b>New events will slide in here as soon as they are scheduled.</div></section>`;
+  const sl=up.map(e=>{const s=evStatus(A,e,u),d=new Date(e.date),ok=typeof e.image==='string'&&/^data:image\/[a-z+.-]+;base64,[A-Za-z0-9+\/=]+$/.test(e.image);
+    return`<button class="slide ${ok?'':'noimg'}" data-act="scan" data-id="${esc(e.id)}" aria-label="${esc(e.title)}">${ok?`<img class="bg" src="${e.image}" alt="">`:''}<div class="shade"></div><div class="in"><div class="top"><span class="chip ${e.type==='gold'?'gold':''}">${TYPE[e.type]}</span><span class="when">${whenLabel(e.date)}</span></div><div class="bot"><div class="dt"><b>${d.getDate()}</b><span>${d.toLocaleString('en-IN',{month:'short'}).toUpperCase()}</span></div><div style="min-width:0"><h3>${esc(e.title)}</h3><p>${d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})} · ${esc(e.venue||'Venue TBA')}</p><div class="row"><span class="chip">+${evBase(e,c)} CP</span>${s.t}</div></div></div></div></button>`}).join('');
+  const dots=up.length>1?`<div class="dots">${up.map((e,i)=>`<button data-act="slide" data-v="${i}" aria-label="Event ${i+1}" class="${i===(UI.slide||0)?'on':''}"><i></i></button>`).join('')}</div>`:'';
+  return`<section class="showcase" aria-label="Upcoming events">${head}<div class="slides" id="slides">${sl}</div>${dots}</section>`}
+function initSlides(){
+  const el=$('#slides');if(!el)return;
+  if(UI.slide&&UI.slide<el.children.length)el.scrollLeft=UI.slide*el.clientWidth;
+  const dots=$$('.dots button');
+  el.addEventListener('scroll',()=>{const i=Math.round(el.scrollLeft/Math.max(1,el.clientWidth));UI.slide=i;dots.forEach((d,k)=>d.classList.toggle('on',k===i))},{passive:true});
+  ['touchstart','pointerdown','wheel'].forEach(ev=>el.addEventListener(ev,()=>{slideHold=Date.now()+8000},{passive:true}));
+  if(!slideTimer)slideTimer=setInterval(()=>{const s=$('#slides');if(!s||document.hidden||Date.now()<slideHold||s.children.length<2||$('#modal').classList.contains('on'))return;const i=(Math.round(s.scrollLeft/Math.max(1,s.clientWidth))+1)%s.children.length;scrollSlide(i)},5000)}
+function vHome(A){
+  const c=A.c,u=target(),rows=A.annual,N=c.topN,me=rows.find(r=>r.uid===u),mm=A.mets[u],isme=r=>r.uid===u;
+  const row=(r,f)=>`<div class="lb ${f?'first':''} ${isme(r)?'me':''}"><div class="rk">#${r.rank}</div><div class="nm">${esc(r.name||nameOf(r.uid))}${isme(r)?'<span class="youtag">YOU</span>':''}${f?' 👑':''}</div><div class="pt">${fmt(r.cp)}<i>CP</i></div></div>`;
+  let h=`<div class="hero"><h1>Road to Champion<small>${c.year}</small></h1><div class="days"><b class="num">${A.closed?'🏁':daysLeft(c)}</b><span>${A.closed?'final':'days left'}</span></div></div>`;
+  h+=slideShow(A);
+  if(!rows.length){
+    h+=`<div class="empty"><b>The leaderboard is waiting for its first athletes.</b>${A.evs.length?`Scan an event QR from the Events tab. You need ${c.minEventsAnnual} events to be ranked.`:'No events have been scheduled yet.'}</div>`;
+    if(mm&&mm.events)h+=`<div class="gap">${fmt(mm.cp)} CP · ${mm.events}/${c.minEventsAnnual} EVENTS</div>`;
+    return h+prizeBlock()}
+  h+=`<div class="zone">${rows.slice(0,N).map((r,i)=>row(r,i===0)).join('')}</div><div class="zline">CHAMPION ZONE</div>`;
+  let rest=[];
+  if(me&&me.rank>N){rest=rows.filter(r=>r.rank>=Math.max(N+1,me.rank-1)&&r.rank<=me.rank+1)}else rest=rows.slice(N,N+2);
+  if(me&&me.rank>N&&rest[0]&&rest[0].rank>N+1)rest.unshift(null);
+  if(!me&&mm)rest.push({uid:u,rank:'–',cp:mm.cp,name:nameOf(u)});
+  if(rest.length)h+=`<div class="rest">${rest.map(r=>r?row(r,false):'<div class="lb" style="justify-content:center;color:var(--muted)">⋯</div>').join('')}</div>`;
+  let gapTxt='',gapVal='—',inZone=me&&me.rank<=N;
+  if(A.closed)gapTxt=`<div class="gap in">THE ${c.year} CHAMPIONSHIP IS CLOSED</div>`;
+  else if(inZone){const nx=rows[N];const lead=nx?me.cp-nx.cp:me.cp;gapVal='In';gapTxt=`<div class="gap in">YOU'RE IN THE CHAMPION ZONE · ${fmt(lead)} CP CLEAR OF #${N+1}</div>`}
+  else if(me){const need=rows[N-1]?rows[N-1].cp-me.cp:0;gapVal=fmt(need);gapTxt=rows[N-1]?`<div class="gap">${need>0?`${fmt(need)} CP AWAY FROM TOP ${N}`:`TIED WITH #${N} · ONE MORE EVENT DECIDES IT`}</div>`:`<div class="gap in">OPEN SPOT IN THE TOP ${N}</div>`}
+  else if(mm){const left=Math.max(0,c.minEventsAnnual-mm.events);gapTxt=`<div class="gap">${left?`ATTEND ${left} MORE EVENT${left>1?'S':''} TO ENTER THE RANKING`:'JUST OUTSIDE THE RANKING'}</div>`}
+  else gapTxt=`<div class="gap">SCAN AN EVENT QR TO JOIN THE RACE</div>`;
+  h+=gapTxt;
+  h+=`<div class="stats"><div><b>${me?'#'+me.rank:'—'}</b><span>Current annual rank</span></div><div><b>${fmt(mm?mm.cp:0)}</b><span>Championship Points</span></div><div><b>${gapVal}</b><span>CP required for Top ${N}</span></div><div><b>${A.closed?'Final':daysLeft(c)}</b><span>Days remaining</span></div></div>`;
+  h+=`<div class="card"><h3>Season results</h3>${seasonRes(A,1,u)}${seasonRes(A,2,u)}</div>`;
+  if(mm){const k=mm.cats;const L=[['Regular events',k.events],['Challenges completed',k.challenges],[`🔥 Attendance streaks · best run ${mm.longest}`,k.streak],['Gold qualification',k.goldQual],['Season ranking bonus',k.seasonRank],['Gold Event performance',k.perf],['Bonus',k.bonus]].filter(x=>x[1]);
+    h+=`<div class="card"><h3>How you earned ${fmt(mm.cp)} CP</h3>${L.length?L.map(x=>`<div class="res"><span>${x[0]}</span><b ${x[0].startsWith('Attendance')?'style="color:var(--streak)"':''}>+${fmt(x[1])}</b></div>`).join(''):'<p class="muted">Nothing yet. Your first check-in is worth '+c.scoring.regular+' CP.</p>'}</div>`}
+  h+=prizeBlock();
+  h+=`<details class="card"><summary style="font-weight:700;cursor:pointer">How Championship Points work</summary><div style="margin-top:10px;font-size:14px" class="muted">Regular event +${c.scoring.regular} · Challenge +${c.scoring.challenge} · Attendance streak +${c.scoring.streak} every ${c.scoring.streakEvery} events in a row · Gold qualification +${c.scoring.goldQual} · Season Top 10 +${c.scoring.top10} · Top 5 +${c.scoring.top5} · Season Champion +${c.scoring.champion} · Gold Event performance +${c.scoring.perfMin} to +${c.scoring.perfMax}. This leaderboard does not reset after Season 1. It closes when the championship year ends. Ties go to whoever attended more events. You need ${c.minEventsAnnual} events to be ranked.</div></details>`;
+  return h}
+
+/* ============ member: events ============ */
+function evStatus(A,e,u){
+  const m=A.mets[u],done=m&&m.att[e.id];if(done)return{k:'done',t:'<span class="chip ok">Checked in ✓</span>'};
+  if(e.open===false)return{k:'closed',t:'<span class="chip">Closed</span>'};
+  if(e.type==='gold'){const s=A.sd[e.season||1];if(!s||!s.gold.includes(u))return{k:'lock',t:'<span class="chip gold">🔒 Gold only</span>'}}
+  return{k:'open',t:'<span class="chip navy">Tap to scan</span>'}}
+function vEvents(A){
+  const c=A.c,u=target(),now=Date.now()-6*36e5;const up=A.evs.filter(e=>+new Date(e.date)>=now),past=A.evs.filter(e=>+new Date(e.date)<now).reverse();
+  const card=e=>{const s=evStatus(A,e,u),d=new Date(e.date);return`<button class="ev ${s.k==='done'?'done':''} ${s.k==='lock'?'lock':''}" data-act="scan" data-id="${esc(e.id)}"><div class="d"><b>${d.getDate()}</b><span>${d.toLocaleString('en-IN',{month:'short'})}</span></div><div class="m"><strong>${esc(e.title)}</strong><small>${d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})} · ${esc(e.venue||'Venue TBA')}</small><div style="margin-top:5px" class="row"><span class="chip ${e.type==='gold'?'gold':''}">${TYPE[e.type]}</span><span class="chip">+${evBase(e,c)} CP</span>${s.t}</div></div></button>`};
+  let h=`<div class="hero"><h1>Events</h1></div><p class="muted" style="margin:-6px 0 14px">Tap an event, then scan the QR code shown at the venue.</p>`;
+  if(!A.evs.length)return h+`<div class="empty"><b>No events yet</b>When admins schedule events, they appear here.</div>`;
+  h+=up.length?up.map(card).join(''):'<div class="empty">No upcoming events.</div>';
+  if(past.length)h+=`<h3 style="font-size:26px;margin:20px 0 10px">Past events</h3>`+past.map(card).join('');
+  return h}
+
+/* ============ member: seasons ============ */
+function vSeasons(A){
+  const c=A.c,u=target(),n=UI.season||(seasonState(c,2,A)==='Upcoming'?1:Date.now()>+dayStart(c.seasons[2].start)?2:1),s=A.seasons[n];
+  let h=`<div class="hero"><h1>Seasons<small>${c.year}</small></h1></div><div class="seg" style="margin-bottom:14px">${[1,2].map(i=>`<button data-act="season" data-v="${i}" aria-pressed="${n===i}">Season ${i}</button>`).join('')}</div>`;
+  h+=`<p class="muted" style="margin-bottom:12px">${fmtDay(c.seasons[n].start)} – ${fmtDay(c.seasons[n].end)} · <b>${seasonState(c,n,A)}</b>. Top ${c.goldCount} eligible members become Gold and unlock the Gold Event.</p>`;
+  if(!s.rows.length)h+=`<div class="empty"><b>No ranked members yet</b>Attend ${c.minEventsSeason} events in this season to be ranked.</div>`;
+  else{
+    const g=s.rows.slice(0,c.goldCount),rest=s.rows.slice(c.goldCount,c.goldCount+8);
+    const r=x=>`<div class="lb ${x.uid===u?'me':''}"><div class="rk">#${x.rank}</div><div class="nm">${esc(nameOf(x.uid))}${x.uid===u?'<span class="youtag">YOU</span>':''}</div><div class="pt">${fmt(x.sp)}<i>SP</i></div></div>`;
+    h+=`<div class="zone">${g.map(r).join('')}</div>`;
+    if(rest.length)h+=`<div class="zline">${s.final?'GOLD LINE':'PROJECTED GOLD LINE'}</div><div class="rest">${rest.map(r).join('')}</div>`}
+  const ge=A.evs.filter(e=>e.type==='gold'&&(e.season||1)===n);
+  h+=`<h3 style="font-size:26px;margin:20px 0 10px">Gold Event</h3>`+(ge.length?ge.map(e=>{const st=evStatus(A,e,u);return`<button class="ev ${st.k==='lock'?'lock':''}" data-act="scan" data-id="${esc(e.id)}"><div class="d"><b>🥇</b></div><div class="m"><strong>${esc(e.title)}</strong><small>${fmtEv(e.date)} · ${esc(e.venue||'')}</small><div style="margin-top:5px">${st.t}</div></div></button>`}).join(''):'<div class="empty">The Gold Event for this season hasn\'t been announced.</div>');
+  return h}
+
+/* ============ member: hall of fame ============ */
+function vHall(A){
+  const arch=Object.values(S.archive).sort((a,b)=>b.year-a.year);
+  let h=`<div class="hero"><h1>Hall of Fame</h1></div>`;
+  if(!arch.length)return h+`<div class="empty"><b>No champions yet</b>The first entry is written when a championship year closes. The Top 5 will be here for good.</div>`;
+  arch.forEach(a=>{const t=a.standings.slice(0,5),ch=t[0];
+    h+=`<div class="hof"><div class="yr">${a.year}</div><div class="champ">👑 ${esc(ch.name)}</div><div style="color:var(--on-navy-muted)">Champion of the Year · ${fmt(ch.cp)} CP · ${ch.events} events</div><div class="row" style="margin-top:10px"><button class="btn gold sm" data-act="card" data-year="${a.year}" data-u="${esc(ch.uid)}">View champion card</button></div><div class="others">${t.slice(1).map(r=>`<div><span>🏆 #${r.rank} ${esc(r.name)}</span><span><b class="num">${fmt(r.cp)}</b> CP · <a href="#" data-act="card" data-year="${a.year}" data-u="${esc(r.uid)}" style="color:var(--gold-ink)">card</a></span></div>`).join('')}</div></div>`});
+  return h}
+
+/* ============ member: me ============ */
+function vMe(A){
+  const u=target(),c=A.c,m=A.mets[u],hist=histOf(u),rk=A.annual.find(r=>r.uid===u);
+  let h=`<div class="hero"><h1>${esc(nameOf(u))}</h1></div>`;
+  h+=`<div class="stats"><div><b>${rk?'#'+rk.rank:'—'}</b><span>${c.year} rank</span></div><div><b>${fmt(m?m.cp:0)}</b><span>Championship Points</span></div><div><b>${m?m.events:0}</b><span>Events attended</span></div><div><b style="color:var(--streak)">${m?m.longest:0}</b><span>🔥 Longest streak</span></div></div>`;
+  h+=`<div class="card"><h3>Profile history</h3><div class="tl">${A.closed?'':`<div><b>${c.year}</b> <span class="muted">${rk?`In progress · #${rk.rank}`:'In progress · not ranked yet'}</span></div>`}${hist.map(x=>`<div><b>${x.year}</b> ${x.label}</div>`).join('')}${!hist.length&&A.closed?'<div class="muted">No finished years yet.</div>':''}</div></div>`;
+  const hm=hist.filter(x=>x.tier==='champ'||x.tier==='top5');
+  h+=`<div class="card"><h3>Badges</h3>${hm.length?hm.map(x=>`<div class="res"><span>${x.tier==='champ'?'👑 <b>JITO YOUTH FITNESS</b><br><span class="muted">CHAMPION OF THE YEAR · '+x.year+'</span>':'🏆 <b>JITO YOUTH FITNESS</b><br><span class="muted">TOP 5 — '+x.year+'</span>'}</span><button class="btn ghost sm" data-act="card" data-year="${x.year}" data-u="${esc(u)}">Card</button></div>`).join(''):'<p class="muted">Finish in the Top 5 at year-end to earn a permanent badge.</p>'}</div>`;
+  h+=`<div class="row"><button class="btn ghost" data-act="card" data-year="${c.year}" data-u="${esc(u)}" ${m?'':'disabled'}>Preview my ${c.year} card</button>${UI.viewAs?'':'<button class="btn ghost" data-act="editname">Change display name</button>'}</div>`;
+  if(ST.mode==='local'&&!UI.viewAs)h+=`<div class="row" style="margin-top:12px"><button class="btn ghost" data-act="signout">Sign out</button></div>`;
+  if(ST.mode==='local')h+=`<p class="note" style="margin-top:14px">Offline mode: events, scores and profiles are stored only on this device. Open the shared link while signed in to Claude to use one leaderboard for everyone.</p>`;
+  return h}
+
+/* ============ champion card ============ */
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+async function drawCard(cv,d){
+  try{await document.fonts.load('900 100px "Big Shoulders Display"');await document.fonts.load('600 30px Figtree')}catch(e){}
+  const W=1080,H=1350,D='"Big Shoulders Display",Impact,"Arial Narrow",sans-serif',B='Figtree,system-ui,sans-serif';cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#16301F');g.addColorStop(1,'#0A1511');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(52,211,153,.12)';x.lineWidth=3;for(let i=0;i<10;i++){x.beginPath();x.ellipse(W/2,H*1.05,360+i*72,520+i*86,0,Math.PI,2*Math.PI);x.stroke()}
+  x.strokeStyle='#34D399';x.lineWidth=6;rr(x,36,36,W-72,H-72,30);x.stroke();
+  x.textAlign='center';const T=(t,y,f,col,ls)=>{x.font=f;x.fillStyle=col;try{x.letterSpacing=(ls||0)+'px'}catch(e){}x.fillText(t,W/2,y)};
+  T(d.org.toUpperCase(),140,`600 36px ${B}`,'#9DB0A5',5);
+  const champ=d.rank===1;
+  T(champ?'👑 CHAMPION OF THE YEAR':`🏆 TOP 5 · ${d.year}`,300,`800 ${champ?92:110}px ${D}`,'#34D399',3);
+  T(String(d.year),470,`900 210px ${D}`,'#F4F8F5',2);
+  T(d.name.toUpperCase(),600,`800 ${d.name.length>18?76:104}px ${D}`,'#F4F8F5',2);
+  T('ANNUAL RANK',720,`600 34px ${B}`,'#9DB0A5',6);
+  T('#'+d.rank,900,`900 230px ${D}`,'#34D399',0);
+  T(`${fmt(d.cp)} CHAMPIONSHIP POINTS`,1000,`800 58px ${D}`,'#F4F8F5',3);
+  const cols=[[d.events,'EVENTS'],[d.golds+'×','GOLD'],[d.longest,'EVENT LONGEST STREAK']];
+  cols.forEach((k,i)=>{const cx=W*(i*2+1)/6;x.textAlign='center';x.font=`900 84px ${D}`;x.fillStyle=i===2?'#FF8A3D':'#34D399';try{x.letterSpacing='0px'}catch(e){}x.fillText(String(k[0]),cx,1135);x.font=`600 26px ${B}`;x.fillStyle='#9DB0A5';try{x.letterSpacing='3px'}catch(e){}x.fillText(k[1],cx,1180)});
+  x.textAlign='center';T('JITO YOUTH FITNESS',1275,`800 44px ${D}`,'#34D399',8)}
+function cardData(year,u){
+  const c=CFG();let r;const a=S.archive[year];
+  if(a){r=a.standings.find(x=>x.uid===u);if(r)return{org:a.org||c.org,year,name:r.name||nameOf(u),rank:r.rank,cp:r.cp,events:r.events,golds:r.golds,longest:r.longest}}
+  const A=computeAll(),m=A.mets[u],rk=A.annual.find(x=>x.uid===u);if(!m)return null;
+  return{org:c.org,year,name:nameOf(u),rank:rk?rk.rank:0,cp:m.cp,events:m.events,golds:m.golds,longest:m.longest,preview:true}}
+async function openCard(year,u){
+  const d=cardData(year,u);if(!d){toast('No results found for that member.');return}
+  openModal(`<button class="btn ghost sm x" data-act="close">Close</button><h2>${d.preview?'Card preview':'Year-end card'}</h2>${d.preview?'<p class="note">This is a live preview of the current standing. The official card is generated when the year closes.</p>':''}<canvas id="cardcv" class="cv" style="width:100%;max-width:420px"></canvas><div class="row"><button class="btn gold" data-act="savecard">Save / share image</button></div>`,null,'wide');
+  window.__card=d;await drawCard($('#cardcv'),d)}
+function canvasBlob(cv){return new Promise(r=>cv.toBlob(r,'image/png'))}
+async function saveCanvas(cv,name){
+  const b=await canvasBlob(cv);
+  try{if(navigator.canShare){const f=new File([b],name,{type:'image/png'});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:name});return}}}catch(e){if(e&&e.name==='AbortError')return}
+  try{const dl=ST.dl||await window.claude.use('downloads');if(dl){await dl.save({filename:name,data:b});toast('Saved');return}}catch(e){if(e&&e.code==='declined')return}
+  toast('Saving isn\'t available here. Long-press the image to save it.')}
+
+/* ============ QR scanner ============ */
+const SC={stream:null,on:false,busy:false,evId:null,raf:0};
+function stopCam(){SC.on=false;cancelAnimationFrame(SC.raf);if(SC.stream){SC.stream.getTracks().forEach(t=>t.stop());SC.stream=null}}
+async function openScanner(id){
+  const A=computeAll(),e=S.events[id];if(!e)return;const u=target(),st=evStatus(A,{...e,id},u);
+  const head=`<button class="btn ghost sm x" data-act="close">Close</button><h2>${esc(e.title)}</h2><p class="muted" style="margin-bottom:12px">${fmtEv(e.date)} · ${esc(e.venue||'')} · <b>+${evBase(e,A.c)} CP</b></p>`;
+  if(st.k==='done'){openModal(head+`<div class="res-ok">${'✓'}<p><b>You're checked in</b></p><p>Your points for this event are already counted.</p></div>`);return}
+  if(st.k==='closed'){openModal(head+`<div class="res-bad">Check-in for this event is closed.</div>`);return}
+  if(st.k==='lock'){const s=A.sd[e.season||1];openModal(head+`<div class="res-bad">${s?'This is a Gold Event. Only Season '+(e.season||1)+' Gold members can check in.':'This Gold Event unlocks when Season '+(e.season||1)+' is finalized and you qualify as Gold.'}</div>`);return}
+  SC.evId=id;SC.busy=false;
+  openModal(head+`<div id="scres"></div><div class="cam" id="camwrap"><video id="vid" playsinline muted></video><div class="frame"></div><div class="msg" id="cammsg">Starting camera…</div></div><div class="row"><label class="btn ghost sm">Upload a photo of the QR<input type="file" accept="image/*" class="hide" data-chg="qrfile"></label><button class="btn ghost sm" data-act="manual">Type the code</button></div><div id="manual" class="hide" style="margin-top:12px"><label class="f">Code printed under the QR<input id="mcode" placeholder="XXXX-XXXX" autocomplete="off" style="text-transform:uppercase"></label><button class="btn gold" data-act="mgo">Check in</button></div>`);
+  startCam()}
+async function startCam(){
+  const v=$('#vid'),msg=$('#cammsg');if(!v)return;
+  try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;
+    SC.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+    if(!$('#vid')){stopCam();return}v.srcObject=SC.stream;await v.play();msg.textContent='Point the camera at the event QR code';SC.on=true;scanTick()}
+  catch(e){const m=$('#cammsg');if(m)m.textContent='Camera isn\'t available here. Upload a photo of the QR or type the code.'}}
+const scCv=document.createElement('canvas');
+function scanTick(){
+  if(!SC.on)return;const v=$('#vid');
+  if(v&&v.readyState>=2&&v.videoWidth){const k=Math.min(1,640/v.videoWidth);scCv.width=v.videoWidth*k|0;scCv.height=v.videoHeight*k|0;const x=scCv.getContext('2d',{willReadFrequently:true});x.drawImage(v,0,0,scCv.width,scCv.height);
+    if(window.jsQR){const d=x.getImageData(0,0,scCv.width,scCv.height),code=jsQR(d.data,d.width,d.height,{inversionAttempts:'dontInvert'});if(code&&code.data){handleScan(code.data);return}}}
+  SC.raf=requestAnimationFrame(scanTick)}
+function decodeFile(file){return new Promise(res=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1400/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=im.width*k|0;cv.height=im.height*k|0;const x=cv.getContext('2d');x.drawImage(im,0,0,cv.width,cv.height);const d=x.getImageData(0,0,cv.width,cv.height),code=window.jsQR&&jsQR(d.data,cv.width,cv.height,{inversionAttempts:'attemptBoth'});res(code?code.data:null)};im.onerror=()=>res(null);im.src=fr.result};fr.readAsDataURL(file)})}
+async function verifyScan(evId,raw){
+  const e=S.events[evId];let tok;
+  if(raw.includes('|')){const p=raw.split('|');if(p[0]!=='JITOFIT')return{ok:false,msg:'That isn\'t a JITO Fitness event QR.'};
+    if(p[2]!==evId){const o=S.events[p[2]];return{ok:false,msg:o?`That QR is for "${o.title}". Open that event to check in.`:'That QR belongs to a different event.'}}tok=normTok(p[3]||'')}
+  else tok=normTok(raw);
+  if(!tok||(await sha(tok))!==e.tokenHash)return{ok:false,msg:'That code doesn\'t match this event. Check you\'re scanning the right QR.'};
+  return{ok:true}}
+async function handleScan(raw){
+  if(SC.busy)return;SC.busy=true;stopCam();const res=$('#scres');
+  const v=await verifyScan(SC.evId,String(raw).trim());
+  if(!v.ok){if(res)res.innerHTML=`<div class="res-bad">${esc(v.msg)}</div>`;SC.busy=false;if($('#vid'))startCam();return}
+  try{const r=await checkIn(SC.evId);const cw=$('#camwrap');if(cw)cw.remove();const mn=$('#manual');if(mn)mn.remove();
+    if(res)res.innerHTML=`<div class="res-ok pop"><div class="big num">+${r.gain}</div><b>Championship Points</b><p style="margin-top:6px">You're checked in. ${r.rank?`You're now #${r.rank} on Road to Champion.`:'Keep going to enter the ranking.'}</p></div><div style="margin-top:12px"><button class="btn" data-act="close">Done</button></div>`}
+  catch(err){SC.busy=false;if(res)res.innerHTML=`<div class="res-bad">Couldn't record your check-in. ${err&&err.code==='invalid_argument'?'Your account may have view-only access. Ask an admin for Contributor access.':'Try again in a moment.'}</div>`}}
+async function checkIn(evId){
+  const u=target(),before=(computeAll().mets[u]||{}).cp||0,cur=(S.checkins[u]&&S.checkins[u].events)||{},events={...cur,[evId]:Date.now()};
+  if(!S.members[u])await put('members',u,{name:ST.ME.name||'Member',joinedAt:Date.now()});
+  await put('checkins',u,{events});S.checkins[u]={events};_cache=null;
+  const A=computeAll(),after=A.mets[u].cp,rk=A.annual.find(r=>r.uid===u);setTimeout(render,50);
+  return{gain:after-before,rank:rk&&rk.rank}}
+/* ============ admin ============ */
+const ATABS=[['overview','Overview'],['events','Events & QR'],['people','Members & awards'],['scoring','Scoring'],['prizes','Grand Prize'],['data','Data explorer']];
+function adminView(A){
+  const f={overview:aOverview,events:aEvents,people:aPeople,scoring:aScoring,prizes:aPrizes,data:aData}[UI.atab]||aOverview;
+  return`<main class="wide"><div class="atabs" role="tablist">${ATABS.map(t=>`<button data-act="atab" data-v="${t[0]}" ${UI.atab===t[0]?'aria-current="page"':''}>${t[1]}</button>`).join('')}</div>${f(A)}</main>`}
+function aOverview(A){
+  const c=A.c,ck=A.uids.reduce((s,u)=>s+Object.keys(A.mets[u].att).length,0);
+  let h=`<div class="hero"><h1>Admin console<small>${c.year}</small></h1></div>`;
+  h+=`<p class="note">${ST.mode==='cloud'?'Connected: data is shared with every member who opens this page.':'Preview mode: data is stored only in this browser. Publish and open the link while signed in for shared data.'}</p>`;
+  h+=`<div class="grid4" style="margin-bottom:14px">${[['Members',A.uids.length],['Events this year',A.evs.length],['Check-ins',ck],['Awards given',A.aw.length]].map(x=>`<div class="card" style="margin:0"><div class="num" style="font-size:42px">${x[1]}</div><span class="muted">${x[0]}</span></div>`).join('')}</div>`;
+  h+=`<div class="grid2">${[1,2].map(n=>{const s=A.seasons[n],st=seasonState(c,n,A);return`<div class="card"><h3>Season ${n}</h3><p class="muted">${fmtDay(c.seasons[n].start)} – ${fmtDay(c.seasons[n].end)}</p><p style="margin:8px 0"><span class="chip ${s.final?'ok':''}">${st}</span> <span class="chip">${s.rows.length} ranked</span> <span class="chip gold">${s.gold.length} Gold</span></p><p class="muted" style="font-size:14px;margin-bottom:10px">Finalizing freezes the ranking, marks Gold members, unlocks the Gold Event and awards CP (Gold +${c.scoring.goldQual}, Top 10 +${c.scoring.top10}, Top 5 +${c.scoring.top5}, Champion +${c.scoring.champion}).</p>${s.final?`<button class="btn danger sm" data-act="undoseason" data-n="${n}">Undo finalization</button>`:`<button class="btn gold sm" data-act="finalize" data-n="${n}" ${s.rows.length?'':'disabled'}>Finalize Season ${n}</button>`}</div>`}).join('')}</div>`;
+  h+=`<div class="card"><h3>Championship year ${c.year}</h3><p class="muted">${A.closed?'Closed. The leaderboard is frozen and the Top 5 are in the Hall of Fame.':`Open. ${daysLeft(c)} days remain. The leaderboard carries across both seasons and resets only when you start the next year.`}</p><div class="row" style="margin-top:10px">${A.closed?`<button class="btn gold" data-act="nextyear">Start ${c.year+1}</button>`:`<button class="btn gold" data-act="closeyear" ${A.annual.length?'':'disabled'}>Close year &amp; crown the Top ${c.topN}</button>`}</div></div>`;
+  h+=`<div class="card"><h3>Setup</h3><div class="row"><button class="btn ghost" data-act="demo">Load demo data</button><button class="btn danger" data-act="wipe">Erase all data</button><button class="btn ghost" data-act="adminlock">Lock admin</button></div><p class="muted" style="font-size:14px;margin-top:8px">Demo data adds 14 members, a full year of events, a finalized Season 1 and a live Season 2, so you can see every screen. You are added as a member just outside the Top 5.</p></div>`;
+  return h}
+
+/* events + QR */
+const toLocalInput=d=>{const x=new Date(d);const p=n=>String(n).padStart(2,'0');return`${x.getFullYear()}-${p(x.getMonth()+1)}-${p(x.getDate())}T${p(x.getHours())}:${p(x.getMinutes())}`};
+function aEvents(A){
+  const ed=UI.evEdit&&S.events[UI.evEdit]?{...S.events[UI.evEdit],id:UI.evEdit}:null,all=Object.entries(S.events).map(([id,e])=>({...e,id})).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const cnt=id=>Object.values(S.checkins).filter(k=>k.events&&k.events[id]).length;
+  let h=`<div class="card"><h3>${ed?'Edit event':'Create an event'}</h3><div class="grid2"><label class="f">Title<input id="ev_title" value="${esc(ed&&ed.title)}" placeholder="Sunrise Run, Besant Nagar"></label><label class="f">Type<select id="ev_type">${Object.entries(TYPE).map(([k,v])=>`<option value="${k}" ${ed&&ed.type===k?'selected':''}>${v}</option>`).join('')}</select></label></div><div class="grid3"><label class="f">Date &amp; time<input id="ev_date" type="datetime-local" value="${ed?toLocalInput(ed.date):toLocalInput(Date.now()+DAY)}"></label><label class="f">Season<select id="ev_season"><option value="">Auto from date</option><option value="1" ${ed&&ed.season===1?'selected':''}>Season 1</option><option value="2" ${ed&&ed.season===2?'selected':''}>Season 2</option></select></label><label class="f">Venue<input id="ev_venue" value="${esc(ed&&ed.venue)}"></label></div><div class="grid3"><label class="f">CP override (blank = ${A.c.scoring.regular}/${A.c.scoring.challenge}/${A.c.scoring.goldAttend})<input id="ev_cp" type="number" value="${esc(ed&&ed.cp)}"></label><label class="f">Season points override<input id="ev_sp" type="number" value="${esc(ed&&ed.sp)}"></label><label class="f">Check-in<select id="ev_open"><option value="1">Open</option><option value="0" ${ed&&ed.open===false?'selected':''}>Closed</option></select></label></div><label class="f">Description<textarea id="ev_desc">${esc(ed&&ed.desc)}</textarea></label><div class="row" style="margin-bottom:6px"><img id="evimg" src="${(UI.evImg!==undefined?UI.evImg:(ed&&ed.image))||''}" alt="" style="width:128px;height:72px;object-fit:cover;border-radius:10px;background:var(--surface2);${(UI.evImg!==undefined?UI.evImg:(ed&&ed.image))?'':'visibility:hidden'}"><label class="btn ghost sm">Background image<input type="file" accept="image/*" class="hide" data-chg="evimg"></label><button class="btn ghost sm" data-act="evimgclear">Remove image</button></div><p class="muted" style="font-size:13px;margin-bottom:12px">Shown behind this event in the home-screen slideshow. Wide landscape photos look best.</p><div class="row"><button class="btn gold" data-act="evsave">${ed?'Save changes':'Create event &amp; generate QR'}</button>${ed?'<button class="btn ghost" data-act="evnew">Cancel</button>':''}</div></div>`;
+  h+=`<div class="card"><h3>All events</h3>${all.length?`<div class="tw"><table><thead><tr><th>Event</th><th>When</th><th>Type</th><th>Check-ins</th><th></th></tr></thead><tbody>${all.map(e=>`<tr><td><b>${esc(e.title)}</b><br><span class="path">events/${esc(e.id)}</span></td><td>${fmtEv(e.date)}</td><td><span class="chip ${e.type==='gold'?'gold':''}">${TYPE[e.type]}</span> ${e.open===false?'<span class="chip bad">Closed</span>':''}</td><td><button class="btn ghost sm" data-act="evatt" data-id="${esc(e.id)}">${cnt(e.id)}</button></td><td><div class="row"><button class="btn gold sm" data-act="evqr" data-id="${esc(e.id)}">QR code</button><button class="btn ghost sm" data-act="evedit" data-id="${esc(e.id)}">Edit</button><button class="btn danger sm" data-act="evdel" data-id="${esc(e.id)}">Delete</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty"><b>No events yet</b>Create the first one above. Its QR code appears right after.</div>'}</div>`;
+  return h}
+async function saveEvent(){
+  const g=i=>$('#'+i).value,title=g('ev_title').trim();if(!title){toast('Give the event a title.');return}
+  const date=g('ev_date');if(!date){toast('Pick a date and time.');return}const c=CFG();
+  const o={title,type:g('ev_type'),date,venue:g('ev_venue').trim(),desc:g('ev_desc').trim(),open:g('ev_open')==='1',season:g('ev_season')?+g('ev_season'):seasonOfDate(c,date)};
+  o.image=UI.evImg!==undefined?UI.evImg:((UI.evEdit&&S.events[UI.evEdit]&&S.events[UI.evEdit].image)||'');
+  if(g('ev_cp')!=='')o.cp=+g('ev_cp');if(g('ev_sp')!=='')o.sp=+g('ev_sp');
+  if(UI.evEdit&&S.events[UI.evEdit]){const id=UI.evEdit;await put('events',id,{...S.events[id],...o,cp:o.cp==null?null:o.cp,sp:o.sp==null?null:o.sp});UI.evEdit=null;UI.evImg=undefined;toast('Event updated');render();return}
+  const id='ev_'+rid(),tok=genToken();o.tokenHash=await sha(tok);o.createdAt=Date.now();
+  await put('secrets',id,{token:tok});await put('events',id,o);UI.evEdit=null;UI.evImg=undefined;
+  if(ST.mode==='cloud')S.secrets[id]={token:tok};S.events[id]={...o};render();showEventQR(id)}
+const payload=(id,tok)=>`JITOFIT|v1|${id}|${tok}`;
+async function drawPoster(cv,e,tok,org){
+  try{await document.fonts.load('900 100px "Big Shoulders Display"')}catch(x){}
+  const W=900,H=1240,D='"Big Shoulders Display",Impact,"Arial Narrow",sans-serif',B='Figtree,system-ui,sans-serif';cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  x.fillStyle='#FFFFFF';x.fillRect(0,0,W,H);x.fillStyle='#10231B';x.fillRect(0,0,W,250);x.fillStyle='#0B9B6B';x.fillRect(0,250,W,10);
+  x.textAlign='center';x.fillStyle='#6EE7B7';x.font=`600 30px ${B}`;try{x.letterSpacing='5px'}catch(z){}x.fillText(org.toUpperCase(),W/2,70);
+  x.fillStyle='#fff';let t=e.title.toUpperCase(),fs=96;x.font=`900 ${fs}px ${D}`;try{x.letterSpacing='1px'}catch(z){}while(x.measureText(t).width>W-80&&fs>40){fs-=4;x.font=`900 ${fs}px ${D}`}x.fillText(t,W/2,175);
+  x.fillStyle='#7C817B';x.font=`600 32px ${B}`;try{x.letterSpacing='0px'}catch(z){}x.fillText(`${fmtEv(e.date)}${e.venue?' · '+e.venue:''}`,W/2,325);
+  if(window.qrcode){const q=qrcode(0,'M');q.addData(payload(e.id,tok));q.make();const n=q.getModuleCount(),size=640,cell=Math.floor(size/(n+2)),dim=cell*(n+2),ox=(W-dim)/2,oy=370;x.fillStyle='#fff';x.fillRect(ox,oy,dim,dim);x.fillStyle='#252825';for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))x.fillRect(ox+(k+1)*cell,oy+(r+1)*cell,cell,cell)}
+  else{x.fillStyle='#B4533F';x.font=`600 30px ${B}`;x.fillText('QR library failed to load. Use the backup code below.',W/2,640)}
+  x.fillStyle='#252825';x.font=`600 30px ${B}`;x.fillText('Open the JITO app → Events → tap this event → scan',W/2,1060);
+  x.font=`900 64px ${D}`;try{x.letterSpacing='8px'}catch(z){}x.fillText('BACKUP CODE  '+showTok(tok),W/2,1140);
+  x.fillStyle='#252825';x.font=`800 34px ${D}`;x.fillText('JITO YOUTH FITNESS',W/2,1205)}
+async function showEventQR(id){
+  const e=S.events[id],sc=S.secrets[id];if(!e)return;if(!sc||!sc.token){toast('No code found for this event. Regenerate it.');return}
+  openModal(`<button class="btn ghost sm x" data-act="close">Close</button><h2>Event QR</h2><canvas id="posterc" class="cv" style="width:100%;max-width:380px"></canvas><p class="muted" style="font-size:14px;margin-bottom:10px">Members tap this event in the app and scan this code. Backup code for manual entry: <b>${showTok(sc.token)}</b></p><div class="row"><button class="btn gold" data-act="posterSave" data-id="${esc(id)}">Save poster (PNG)</button><button class="btn ghost" data-act="evregen" data-id="${esc(id)}">Regenerate code</button></div>`,null,'wide');
+  await drawPoster($('#posterc'),{...e,id},sc.token,CFG().org)}
+function attendeesModal(id){const e=S.events[id],list=Object.entries(S.checkins).filter(([,k])=>k.events&&k.events[id]).map(([u,k])=>({u,t:k.events[id]})).sort((a,b)=>a.t-b.t);
+  openModal(`<button class="btn ghost sm x" data-act="close">Close</button><h2>${esc(e.title)}</h2><p class="muted" style="margin-bottom:10px">${list.length} check-in${list.length===1?'':'s'}</p>${list.length?`<div class="tw"><table><tbody>${list.map(x=>`<tr><td>${esc(nameOf(x.u))}</td><td class="muted">${new Date(x.t).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}</td><td><button class="btn danger sm" data-act="uncheck" data-id="${esc(id)}" data-u="${esc(x.u)}">Remove</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">No one has checked in yet.</div>'}`)}
+
+/* people + awards */
+function aPeople(A){
+  const c=A.c,list=A.uids.map(u=>A.mets[u]).sort((a,b)=>b.cp-a.cp),aw=A.aw.slice().sort((a,b)=>b.ts-a.ts);
+  let h=`<div class="card"><h3>Add points</h3><div class="grid3"><label class="f">Member<select id="aw_u">${A.uids.map(u=>`<option value="${esc(u)}">${esc(nameOf(u))}</option>`).join('')}</select></label><label class="f">Reason<select id="aw_t"><option value="gold_perf">Gold Event performance (${c.scoring.perfMin}–${c.scoring.perfMax})</option><option value="challenge">Challenge completed</option><option value="bonus">Bonus</option></select></label><label class="f">Championship Points<input id="aw_cp" type="number" value="${c.scoring.perfMin}"></label></div><div class="grid2"><label class="f">Event (optional)<select id="aw_e"><option value="">None</option>${A.evs.map(e=>`<option value="${esc(e.id)}">${esc(e.title)}</option>`).join('')}</select></label><label class="f">Note<input id="aw_n" placeholder="Fastest 5K, best form…"></label></div><button class="btn gold" data-act="awadd" ${A.uids.length?'':'disabled'}>Award points</button></div>`;
+  h+=`<div class="card"><h3>Members</h3>${list.length?`<div class="tw"><table><thead><tr><th>Name</th><th>Events</th><th>CP</th><th>S1 SP</th><th>S2 SP</th><th>Gold</th><th></th></tr></thead><tbody>${list.map(m=>`<tr><td><b>${esc(nameOf(m.uid))}</b><br><span class="path">members/${esc(m.uid)}</span></td><td>${m.events}</td><td class="num" style="font-size:20px">${fmt(m.cp)}</td><td>${m.sp[1]}</td><td>${m.sp[2]}</td><td>${m.golds?'🥇×'+m.golds:'–'}</td><td><div class="row"><button class="btn ghost sm" data-act="viewasm" data-u="${esc(m.uid)}">View as</button>${m.uid.startsWith('demo_')?'':''}</div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty"><b>No members yet</b>Members appear when they set a name or check in.</div>'}</div>`;
+  h+=`<div class="card"><h3>Awards &amp; adjustments</h3>${aw.length?`<div class="tw"><table><tbody>${aw.map(a=>`<tr><td>${esc(nameOf(a.uid))}</td><td>${esc(a.note||a.type)}</td><td><span class="chip">${esc(a.type)}</span></td><td class="num" style="font-size:20px">+${fmt(a.cp)}</td><td>${a.src&&/^s\d$/.test(a.src)?'<span class="muted">season</span>':`<button class="btn danger sm" data-act="awdel" data-id="${esc(a.id)}">Remove</button>`}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">No awards yet.</div>'}</div>`;
+  return h}
+async function addAward(){
+  const c=CFG(),u=$('#aw_u').value,t=$('#aw_t').value;let cp=+$('#aw_cp').value;if(!cp){toast('Enter the points to award.');return}
+  if(t==='gold_perf')cp=clamp(cp,c.scoring.perfMin,c.scoring.perfMax);
+  const items=awardsOf(c.year).slice();items.push({id:'aw_'+rid(),uid:u,type:t,cp,eventId:$('#aw_e').value||null,note:$('#aw_n').value.trim(),src:'manual',ts:Date.now()});
+  await put('awards','y'+c.year,{items});toast(`+${cp} CP awarded`);_cache=null;render()}
+
+/* scoring */
+const SCF=[['regular','Regular event attendance'],['challenge','Challenge completed'],['goldAttend','Gold Event attendance'],['streak','Major attendance streak'],['streakEvery','Streak length (events in a row)'],['goldQual','Gold qualification'],['top10','Season Top 10'],['top5','Season Top 5'],['champion','Season Champion'],['perfMin','Gold Event performance, minimum'],['perfMax','Gold Event performance, maximum']];
+function aScoring(A){const c=A.c;
+  let h=`<div class="card"><h3>Championship Points</h3><p class="muted" style="margin-bottom:12px">These rules apply to the whole year. Changing them re-scores everyone instantly.</p><div class="grid3">${SCF.map(([k,l])=>`<label class="f">${l}<input id="sc_${k}" type="number" value="${c.scoring[k]}"></label>`).join('')}</div></div>`;
+  h+=`<div class="card"><h3>Seasonal points &amp; eligibility</h3><div class="grid3"><label class="f">Season points: regular<input id="sp_regular" type="number" value="${c.sp.regular}"></label><label class="f">Season points: challenge<input id="sp_challenge" type="number" value="${c.sp.challenge}"></label><label class="f">Season points: gold<input id="sp_gold" type="number" value="${c.sp.gold}"></label><label class="f">Gold members per season<input id="c_goldCount" type="number" value="${c.goldCount}"></label><label class="f">Min events to rank in a season<input id="c_minEventsSeason" type="number" value="${c.minEventsSeason}"></label><label class="f">Min events to rank in the year<input id="c_minEventsAnnual" type="number" value="${c.minEventsAnnual}"></label></div></div>`;
+  h+=`<div class="card"><h3>Year &amp; seasons</h3><div class="grid2"><label class="f">Organisation name (on cards)<input id="c_org" value="${esc(c.org)}"></label><label class="f">Short name (header)<input id="c_short" value="${esc(c.short)}"></label></div><div class="grid3"><label class="f">Championship year<input id="c_year" type="number" value="${c.year}"></label><label class="f">Year starts<input id="c_ys" type="date" value="${c.yearStart}"></label><label class="f">Year ends<input id="c_ye" type="date" value="${c.yearEnd}"></label><label class="f">Season 1 starts<input id="c_s1s" type="date" value="${c.seasons[1].start}"></label><label class="f">Season 1 ends<input id="c_s1e" type="date" value="${c.seasons[1].end}"></label><span></span><label class="f">Season 2 starts<input id="c_s2s" type="date" value="${c.seasons[2].start}"></label><label class="f">Season 2 ends<input id="c_s2e" type="date" value="${c.seasons[2].end}"></label></div></div><button class="btn gold" data-act="scsave">Save scoring &amp; settings</button>`;
+  return h}
+async function saveScoring(){
+  const c=CFG(),n=i=>+$('#'+i).value,s={};SCF.forEach(([k])=>s[k]=n('sc_'+k));
+  if(s.perfMin>s.perfMax){toast('Performance minimum must not exceed the maximum.');return}
+  if(s.streakEvery<1){toast('Streak length must be at least 1.');return}
+  await put('config','main',{...c,org:$('#c_org').value.trim()||c.org,short:$('#c_short').value.trim()||c.short,year:n('c_year'),yearStart:$('#c_ys').value,yearEnd:$('#c_ye').value,scoring:s,sp:{regular:n('sp_regular'),challenge:n('sp_challenge'),gold:n('sp_gold')},goldCount:n('c_goldCount'),minEventsSeason:n('c_minEventsSeason'),minEventsAnnual:n('c_minEventsAnnual'),seasons:{1:{start:$('#c_s1s').value,end:$('#c_s1e').value},2:{start:$('#c_s2s').value,end:$('#c_s2e').value}}});
+  toast('Saved');_cache=null;render()}
+
+/* prizes */
+UI.pz={};
+function aPrizes(A){const p=S.prizes.main||{status:'soon',teaser:'Something BIG awaits the Top 5 👀',items:{}};
+  const R=[1,2,3,4,5].map(r=>({r,...(p.items&&p.items[r]||{})}));
+  const st=[['hidden','Hidden'],['soon','Coming soon'],['teaser','Teaser'],['live','Announced']];
+  let h=`<div class="card"><h3>Grand Prize visibility</h3><div class="row" style="margin-bottom:12px">${st.map(s=>`<label class="chip ${p.status===s[0]?'navy':''}" style="padding:7px 14px;cursor:pointer"><input type="radio" name="pz_status" value="${s[0]}" ${p.status===s[0]?'checked':''} style="margin-right:6px">${s[1]}</label>`).join('')}</div><label class="f">Teaser text<input id="pz_teaser" value="${esc(p.teaser||'')}" placeholder="TOP 5 GRAND PRIZE — COMING SOON  or  Something BIG awaits the Top 5 👀"></label><div class="grid2"><label class="f">Prize headline (when announced)<input id="pz_headline" value="${esc(p.headline||'Year-End Grand Prize')}"></label><label class="f">Overall eligibility<input id="pz_elig" value="${esc(p.eligibility||'')}" placeholder="Top 5 eligible members only"></label></div></div>`;
+  h+=R.map(x=>{const img=UI.pz[x.r]!==undefined?UI.pz[x.r]:x.image;return`<div class="card"><h3>Rank #${x.r}${x.r===1?' · Champion':''}</h3><div class="grid2"><label class="f">Prize title<input id="pz${x.r}_title" value="${esc(x.title)}"></label><label class="f">Sponsor<input id="pz${x.r}_sponsor" value="${esc(x.sponsor)}"></label></div><div class="grid2"><label class="f">Prize value<input id="pz${x.r}_value" value="${esc(x.value)}" placeholder="₹25,000"></label><label class="f">Eligibility<input id="pz${x.r}_elig" value="${esc(x.elig)}"></label></div><label class="f">Description<textarea id="pz${x.r}_desc">${esc(x.desc)}</textarea></label>${x.r===1?`<label class="f">Extra for the Champion (trophy, exclusive reward)<input id="pz1_extra" value="${esc(x.extra)}"></label>`:''}<div class="row"><img id="pzimg${x.r}" src="${img||''}" alt="" style="width:84px;height:84px;object-fit:cover;border-radius:10px;background:var(--surface2);${img?'':'visibility:hidden'}"><label class="btn ghost sm">Prize image<input type="file" accept="image/*" class="hide" data-chg="pzimg" data-r="${x.r}"></label><button class="btn ghost sm" data-act="pzclear" data-r="${x.r}">Remove image</button></div></div>`}).join('');
+  return h+`<button class="btn gold" data-act="pzsave">Save prizes</button>`}
+async function savePrizes(){
+  const p=S.prizes.main||{items:{}},items={};
+  for(let r=1;r<=5;r++){const g=k=>($('#pz'+r+'_'+k)||{value:''}).value.trim();items[r]={title:g('title'),sponsor:g('sponsor'),value:g('value'),elig:g('elig'),desc:g('desc'),image:UI.pz[r]!==undefined?UI.pz[r]:(p.items&&p.items[r]&&p.items[r].image)||''};if(r===1)items[r].extra=g('extra')}
+  const sel=document.querySelector('input[name=pz_status]:checked');
+  await put('prizes','main',{status:sel?sel.value:'soon',teaser:$('#pz_teaser').value.trim(),headline:$('#pz_headline').value.trim(),eligibility:$('#pz_elig').value.trim(),items});UI.pz={};toast('Prizes saved');_cache=null;render()}
+function imgToData(file,max=420,q=.72){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=im.width*k|0;cv.height=im.height*k|0;cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL('image/jpeg',q))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
+
+/* data explorer */
+function aData(A){
+  const cols=COLS.filter(c=>c!=='secrets'||ST.ME.isAdmin),col=UI.exCol,ids=Object.keys(S[col]||{}).sort(),id=UI.exId;
+  const raw=id&&S[col][id]!==undefined?JSON.stringify(S[col][id],null,2):'',locked=raw.includes('data:image');
+  const shown=locked?raw.replace(/"data:image[^"]{0,40}[^"]*"/g,'"[image data]"'):raw;
+  return`<div class="note">Everything the app stores lives here as JSON documents at <span class="path">collection/document</span> paths. ${ST.mode==='cloud'?'Edits are live for every member.':'Preview mode: stored in this browser.'} Be careful: there is no undo.</div>
+  <div class="explorer"><div class="list" role="listbox" aria-label="Collections">${cols.map(c=>`<button data-act="excol" data-v="${c}" aria-current="${c===col}"><span>${c}</span><span class="muted">${Object.keys(S[c]).length}</span></button>`).join('')}</div>
+  <div><div class="list" aria-label="Documents">${ids.length?ids.map(i=>`<button data-act="exid" data-v="${esc(i)}" aria-current="${i===id}"><span style="overflow:hidden;text-overflow:ellipsis">${esc(i)}</span></button>`).join(''):'<div class="muted" style="padding:12px">Empty collection</div>'}</div><div class="row" style="margin-top:8px"><input id="exnew" placeholder="new-doc-id" style="flex:1;min-width:0;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg)"><button class="btn ghost sm" data-act="exnew">Add</button></div></div>
+  <div>${id?`<div class="spread" style="margin-bottom:8px"><span class="path">${esc(col)}/${esc(id)}</span><div class="row"><button class="btn gold sm" data-act="exsave" ${locked?'disabled':''}>Save</button><button class="btn danger sm" data-act="exdel">Delete</button></div></div>${locked?'<p class="note">This document holds images. Edit images from the Events or Grand Prize tab.</p>':''}<textarea id="exjson" class="json" spellcheck="false" ${locked?'readonly':''}>${esc(shown)}</textarea>`:'<div class="empty"><b>Pick a document</b>Choose a collection and document to inspect or edit.</div>'}<div class="row" style="margin-top:12px"><button class="btn ghost sm" data-act="exexport">Export everything (JSON)</button></div></div></div>`}
+
+/* ============ events / actions ============ */
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;e.preventDefault();
+  try{await act(a,t)}catch(err){console.error(err);toast('That didn\'t work: '+(err&&(err.message||err.code)||'unknown error'))}});
+document.addEventListener('change',async e=>{
+  const t=e.target.closest('[data-chg]');if(!t)return;const k=t.dataset.chg;
+  try{
+    if(k==='viewas'){UI.viewAs=t.value||null;render()}
+    else if(k==='qrfile'&&t.files[0]){const raw=await decodeFile(t.files[0]);if(!raw){$('#scres').innerHTML='<div class="res-bad">Couldn\'t read a QR code in that photo. Try a sharper, closer shot.</div>';return}handleScan(raw)}
+    else if(k==='evimg'&&t.files[0]){const d=await imgToData(t.files[0],1000,.72);UI.evImg=d;const im=$('#evimg');im.src=d;im.style.visibility='visible';toast('Image added. Tap Save changes to keep it.')}
+    else if(k==='pzimg'&&t.files[0]){const d=await imgToData(t.files[0]),r=t.dataset.r;UI.pz[r]=d;const im=$('#pzimg'+r);im.src=d;im.style.visibility='visible'}
+  }catch(err){toast('Couldn\'t process that file.')}});
+async function act(a,t){
+  const v=t.dataset.v,id=t.dataset.id;
+  switch(a){
+    case'close':closeModal();break;
+    case'signin':{const name=$('#si_name').value.trim().replace(/\s+/g,' '),pin=$('#si_pin').value.trim(),rem=$('#si_rem').checked;
+      if(!name){toast('Enter your name.');return}
+      if(!/^\d{4,8}$/.test(pin)){toast('PIN must be 4 to 8 digits.');return}
+      const uid='u_'+(await sha('jito:'+name.toLowerCase())).slice(0,12),ph=await sha(uid+':'+pin),m=S.members[uid];
+      if(m&&m.pin&&m.pin!==ph){toast('That PIN doesn\'t match this name.');return}
+      if(!m)await put('members',uid,{name,joinedAt:Date.now(),pin:ph});else if(!m.pin)await put('members',uid,{...m,pin:ph});
+      ST.ME.uid=uid;ST.ME.name=(S.members[uid]||{name}).name;ST.onboarded=true;saveSession({uid},rem);closeModal(true);toast('Signed in as '+ST.ME.name);render();window.scrollTo(0,0);break}
+    case'signout':{if(!await ask('Sign out on this device? You can sign back in with your name and PIN.','Sign out'))break;
+      store.del(SKEY);store.del('jito_admin');UI.admin=false;UI.viewAs=null;UI.tab='home';ST.ME={uid:'guest',name:'',isAdmin:false};ST.skipName=true;render();showSignIn();break}
+    case'slide':{slideHold=Date.now()+8000;scrollSlide(+v);break}
+    case'ask-yes':window.__ask&&window.__ask(true);break;
+    case'ask-no':window.__ask&&window.__ask(false);break;
+    case'tab':UI.tab=v;render();window.scrollTo(0,0);break;
+    case'mode':if(v==='a'&&!ST.ME.isAdmin){openModal(`<button class="btn ghost sm x" data-act="close">Close</button><h2>Admin access</h2><p class="muted" style="margin-bottom:12px">Enter the admin password to manage events, scoring and prizes.</p><label class="f">Password<input id="adpw" type="password" autocomplete="current-password"></label><label class="chk"><input type="checkbox" id="adrem" checked> Keep me signed in as admin on this device</label><div id="adErr"></div><button class="btn gold" data-act="adminlogin" data-submit>Join as admin</button>`);setTimeout(()=>{const i=$('#adpw');i&&i.focus()},60);break}UI.admin=v==='a';render();window.scrollTo(0,0);break;
+    case'adminlogin':{const ok=(await sha($('#adpw').value))===ADMIN_HASH;if(!ok){$('#adErr').innerHTML='<div class="res-bad">Wrong password. Try again.</div>';return}store.set('jito_admin',ADMIN_HASH,$('#adrem')?$('#adrem').checked:true);ST.ME.isAdmin=true;UI.admin=true;closeModal(true);toast('Admin access granted');render();window.scrollTo(0,0);break}
+    case'adminlock':store.del('jito_admin');ST.ME.isAdmin=false;UI.admin=false;toast('Admin locked');render();break;
+    case'atab':UI.atab=v;render();break;
+    case'season':UI.season=+v;render();break;
+    case'scan':openScanner(id);break;
+    case'manual':$('#manual').classList.remove('hide');$('#mcode').focus();break;
+    case'mgo':{const val=$('#mcode').value.trim();if(!val)return;handleScan(val);break}
+    case'savename':{const n=$('#nm').value.trim();if(!n){toast('Enter a name to continue.');return}await put('members',ST.ME.uid,{name:n,joinedAt:Date.now()});ST.ME.name=n;ST.onboarded=true;closeModal(true);render();break}
+    case'editname':openModal(`<h2>Display name</h2><label class="f">Name<input id="nm" maxlength="40" value="${esc(nameOf(ST.ME.uid))}"></label><button class="btn gold" data-act="savename">Save</button>`);break;
+    case'card':openCard(+t.dataset.year,t.dataset.u);break;
+    case'savecard':{const d=window.__card;await saveCanvas($('#cardcv'),`jito-${d.year}-${d.name.replace(/\W+/g,'-').toLowerCase()}.png`);break}
+    case'viewasm':UI.viewAs=t.dataset.u;UI.admin=false;UI.tab='home';render();break;
+    // admin: seasons / year
+    case'finalize':if(await ask(`Finalize Season ${t.dataset.n}? The ranking freezes, Gold members are marked and CP is awarded.`,'Finalize')){await finalizeSeason(+t.dataset.n);toast('Season finalized');render()}break;
+    case'undoseason':if(await ask(`Undo Season ${t.dataset.n} finalization? Its Gold list and awarded CP are removed.`,'Undo')){await undoSeason(+t.dataset.n);toast('Finalization removed');render()}break;
+    case'closeyear':if(await ask('Close the year? The leaderboard freezes, the Top 5 are written to the Hall of Fame and badges are issued.','Close year')){await closeYear();toast('Year closed. Top 5 crowned.');render()}break;
+    case'nextyear':if(await ask('Start the next championship year? Dates shift forward one year and the leaderboard starts from zero. Past results stay in the Hall of Fame.','Start new year')){await startNextYear();toast('New year started');render()}break;
+    case'demo':if(await ask('Load demo data? It adds sample members, events and results alongside what\'s already here.','Load demo')){await loadDemo();render()}break;
+    case'wipe':if(await ask('Erase every event, member, award and result? This cannot be undone.','Erase everything')){await wipeAll();UI.viewAs=null;toast('All data erased');render()}break;
+    // events
+    case'evsave':await saveEvent();break;
+    case'evnew':UI.evEdit=null;UI.evImg=undefined;render();break;
+    case'evimgclear':UI.evImg='';{const im=$('#evimg');if(im){im.removeAttribute('src');im.style.visibility='hidden'}}break;
+    case'evedit':UI.evEdit=id;UI.evImg=undefined;render();window.scrollTo(0,0);break;
+    case'evdel':if(await ask(`Delete "${(S.events[id]||{}).title}"? Check-ins for it stop counting.`,'Delete')){await del('events',id);await del('secrets',id);toast('Event deleted');render()}break;
+    case'evqr':showEventQR(id);break;
+    case'evregen':if(await ask('Generate a new code? Printed QR codes for this event stop working.','Regenerate')){const tok=genToken(),e=S.events[id];await put('secrets',id,{token:tok});await put('events',id,{...e,tokenHash:await sha(tok)});S.secrets[id]={token:tok};showEventQR(id)}break;
+    case'posterSave':await saveCanvas($('#posterc'),`qr-${(S.events[id]||{}).title||id}.png`.replace(/\s+/g,'-'));break;
+    case'evatt':attendeesModal(id);break;
+    case'uncheck':{const u=t.dataset.u,cur={...((S.checkins[u]||{}).events||{})};delete cur[id];await put('checkins',u,{events:cur});S.checkins[u]={events:cur};_cache=null;attendeesModal(id);render();break}
+    // awards
+    case'awadd':await addAward();break;
+    case'awdel':{const c=CFG();await put('awards','y'+c.year,{items:awardsOf(c.year).filter(x=>x.id!==id)});_cache=null;render();break}
+    case'scsave':await saveScoring();break;
+    case'pzsave':await savePrizes();break;
+    case'pzclear':UI.pz[t.dataset.r]='';{const im=$('#pzimg'+t.dataset.r);im.removeAttribute('src');im.style.visibility='hidden'}break;
+    // explorer
+    case'excol':UI.exCol=v;UI.exId=null;render();break;
+    case'exid':UI.exId=v;render();break;
+    case'exnew':{const n=$('#exnew').value.trim();if(!/^[\w\-.~:@+]+$/.test(n)){toast('Use letters, digits and - _ . ~ : @ + only.');return}await put(UI.exCol,n,{});UI.exId=n;render();break}
+    case'exsave':{let o;try{o=JSON.parse($('#exjson').value);if(!o||typeof o!=='object'||Array.isArray(o))throw 0}catch(x){toast('That isn\'t a valid JSON object.');return}await put(UI.exCol,UI.exId,o);toast('Saved');_cache=null;render();break}
+    case'exdel':if(await ask(`Delete ${UI.exCol}/${UI.exId}?`,'Delete')){await del(UI.exCol,UI.exId);UI.exId=null;render()}break;
+    case'exexport':{const dl=ST.dl;if(!dl){toast('Downloads aren\'t available here.');return}try{await dl.save({filename:'road-to-champion-backup.json',data:JSON.stringify(S,null,2)})}catch(x){if(x.code!=='declined')toast('Couldn\'t save the backup.')}break}
+  }}
+
+/* ============ boot ============ */
+ST.got={};
+(async function boot(){
+  const T=(p,ms)=>Promise.race([Promise.resolve(p),new Promise(r=>setTimeout(()=>r(null),ms))]);
+  let db=null,user=null,me=null,needSignIn=false;
+  try{if(window.claude&&claude.use){[db,user]=await Promise.all([T(claude.use('db'),3500).catch(()=>null),T(claude.use('user'),3500).catch(()=>null)])}}catch(e){}
+  if(user){try{me=await T(user.me(),3000)}catch(e){}}
+  try{ST.dl=window.claude&&claude.use?await T(claude.use('downloads'),2000):null}catch(e){ST.dl=null}
+  const sess=getSession();
+  if(db&&me&&me.id){ST.mode='cloud';ST.db=db;ST.ME={uid:me.id,name:me.name||'',isAdmin:wasUnlocked()};watchAll()}
+  else{ST.mode='local';lsLoad();
+    if(sess&&sess.uid&&S.members[sess.uid]){ST.ME={uid:sess.uid,name:S.members[sess.uid].name,isAdmin:wasUnlocked()};ST.onboarded=true}
+    else{ST.ME={uid:'guest',name:'',isAdmin:wasUnlocked()};ST.skipName=true;needSignIn=true}}
+  ST.ready=true;render();if(needSignIn)showSignIn()})();
+</script></body></html>
